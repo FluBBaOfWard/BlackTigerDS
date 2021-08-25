@@ -67,9 +67,7 @@
 		9C4DF1D924BB224C00FB4EB0 /* AY38910.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = AY38910.s; sourceTree = "<group>"; };
 		9C4DF1DA24BB224C00FB4EB0 /* AY38910.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AY38910.h; sourceTree = "<group>"; };
 		9C4DF1DB24BB224C00FB4EB0 /* AY38910.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = AY38910.i; sourceTree = "<group>"; };
-		9C4DF1DC24BB224C00FB4EB0 /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 		9C4DF1DD24BB224C00FB4EB0 /* History.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = History.txt; sourceTree = "<group>"; };
-		9C4DF1DE24BB224C00FB4EB0 /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 		9C4DF1DF24BB224C00FB4EB0 /* History.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = History.txt; sourceTree = "<group>"; };
 		9C4DF1E024BB23A100FB4EB0 /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		9C4DF1E124BB23A100FB4EB0 /* Sound.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = Sound.s; sourceTree = "<group>"; };
@@ -83,7 +81,13 @@
 		9C7BB93825F3D70500EA9C9C /* BlackTiger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackTiger.h; sourceTree = "<group>"; };
 		9C7BB94025FBB0DF00EA9C9C /* EmuFont.grit */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EmuFont.grit; sourceTree = "<group>"; };
 		9C7BB94125FBB0DF00EA9C9C /* EmuFont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EmuFont.png; sourceTree = "<group>"; };
-		9C99548E26340D6200CE2B94 /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
+		9CC0F92F26D6AC680035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9CC0F93026D6AC780035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9CC0F93126D6AC920035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9CC0F93226D6ACA00035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9CC0F93326D6ACAD0035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9CC0F93426D6ACCD0035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9CC0F93526D6AD370035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = arm9/source/Shared/Unzip/README.md; sourceTree = SOURCE_ROOT; };
 		A4AA02141B04077F0043E4D4 /* History.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = History.txt; sourceTree = "<group>"; };
 		A4AA02151B05DCEB0043E4D4 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,6 +98,7 @@
 			children = (
 				9C4DF0CB24AB971B00FB4EB0 /* BlackTigerDS_todo.txt */,
 				A4AA02141B04077F0043E4D4 /* History.txt */,
+				9CC0F93426D6ACCD0035478F /* README.md */,
 				A4AA02151B05DCEB0043E4D4 /* readme.txt */,
 				9C29494326093D5400EDA7C9 /* Capcom.bmp */,
 				A42D026C205FEDD800515C72 /* Docs */,
@@ -159,6 +164,7 @@
 			children = (
 				9C7BB93F25FBB0DF00EA9C9C /* graphics */,
 				9C4DF18D24B4ECB300FB4EB0 /* unzip */,
+				9CC0F93326D6ACAD0035478F /* README.md */,
 				9C4DF19224B4ECB300FB4EB0 /* nds_asm.h */,
 				9C4DF18B24B4ECB300FB4EB0 /* EmuMenu.h */,
 				9C4DF19724B4ECB300FB4EB0 /* EmuMenu.c */,
@@ -177,6 +183,7 @@
 		9C4DF18D24B4ECB300FB4EB0 /* unzip */ = {
 			isa = PBXGroup;
 			children = (
+				9CC0F93526D6AD370035478F /* README.md */,
 				9C4DF19024B4ECB300FB4EB0 /* unzipnds.h */,
 				9C4DF18E24B4ECB300FB4EB0 /* unzipnds.c */,
 				9C4DF18F24B4ECB300FB4EB0 /* puff.h */,
@@ -188,7 +195,7 @@
 		9C4DF1B324B4ECB400FB4EB0 /* ARMZ80 */ = {
 			isa = PBXGroup;
 			children = (
-				9C99548E26340D6200CE2B94 /* ReadMe.txt */,
+				9CC0F93126D6AC920035478F /* README.md */,
 				9C4DF1B724B4ECB400FB4EB0 /* ARMZ80_todo.txt */,
 				9C5082B325E199D200A8E1BA /* History.txt */,
 				9C5082B525E199D200A8E1BA /* Version.h */,
@@ -204,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				9C4DF1C024B4ECB400FB4EB0 /* BlackTigerVideo_todo.txt */,
+				9CC0F93226D6ACA00035478F /* README.md */,
 				9C4DF1C124B4ECB400FB4EB0 /* History.txt */,
 				9C4DF1BC24B4ECB400FB4EB0 /* Version.h */,
 				9C4DF1BF24B4ECB400FB4EB0 /* BlackTigerVideo.h */,
@@ -254,7 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				9C4DF1D724BB224C00FB4EB0 /* AY38910 */,
-				9C4DF1DE24BB224C00FB4EB0 /* ReadMe.txt */,
+				9CC0F93026D6AC780035478F /* README.md */,
 				9C4DF1DF24BB224C00FB4EB0 /* History.txt */,
 				9C4DF1D624BB224C00FB4EB0 /* Version.h */,
 				9C4DF1D524BB224C00FB4EB0 /* YM2203.h */,
@@ -268,7 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				9C3D5ADB25E30E4500E8CD56 /* AY38910ToDo.txt */,
-				9C4DF1DC24BB224C00FB4EB0 /* ReadMe.txt */,
+				9CC0F92F26D6AC680035478F /* README.md */,
 				9C4DF1DD24BB224C00FB4EB0 /* History.txt */,
 				9C4DF1D824BB224C00FB4EB0 /* Version.h */,
 				9C4DF1DA24BB224C00FB4EB0 /* AY38910.h */,
