@@ -1,0 +1,23 @@
+BlackTigerDS revision history
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+V0.1.10 - 2021-03-26 (FluBBa)
+	Added mixed bootleg.
+
+V0.1.8 - 2021-03-23 (FluBBa)
+	Fixed icon.
+	Fixed save state.
+	Fixed scaled mode.
+
+V0.1.5 - 2021-03-17 (FluBBa)
+	Added load/save state.
+
+V0.1.0 - 2021-02-12 (FluBBa)
+	Initial release.
+
+V0.0.1 - 2020-06-08 (FluBBa)
+	Plays Black Tiger.
+
+V0.0.0 - 2020-06-30 (FluBBa)
+   Started porting from GBA.

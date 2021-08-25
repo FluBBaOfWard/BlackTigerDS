@@ -1,0 +1,6 @@
+BlackTigerDS.xcodeproj/project.xcworkspace/xcuserdata
+*.xcworkspacedata
+*.elf
+arm7/build
+arm9/build
+*.nds

@@ -1,0 +1,25 @@
+BlackTigerDS To do
+-------------------
+
+
+
+Misc:
+	Add dipswitches to Savestate.
+	Fix files!
+	Show Coin counter?
+	Pad left and right to switch Tabs in GUI?
+
+Graphic:
+	Screen Flip support for sprites.
+
+CPU:
+	Timing?
+
+GUI:
+
+Sound:
+	Get sound cpu working.
+	Fix YM2203 emulation?
+
+Games:
+
