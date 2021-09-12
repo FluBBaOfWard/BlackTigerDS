@@ -16,10 +16,6 @@
 static void checkTimeOut(void);
 static void setupGraphics(void);
 
-bool enableExit = false;
-bool pauseEmulation = false;
-int selectedGame = 0;
-int sleepTime = 60*60*5;			// 5 min
 static int sleepTimer = 60*60*5;	// 5 min
 static bool vBlankOverflow = false;
 s16 sampleDelta = 1500;

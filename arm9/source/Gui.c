@@ -2,6 +2,8 @@
 
 #include "Gui.h"
 #include "Shared/EmuMenu.h"
+#include "Shared/EmuSettings.h"
+#include "Shared/FileHelper.h"
 #include "Shared/AsmExtra.h"
 #include "Main.h"
 #include "FileHandling.h"
@@ -12,7 +14,7 @@
 #include "BlackTigerVideo/Version.h"
 #include "../../arm7/source/YM2203/Version.h"
 
-#define EMUVERSION "V0.1.10 2021-03-26"
+#define EMUVERSION "V0.1.10 2021-09-12"
 
 const fptr fnMain[] = {nullUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI};
 
@@ -31,7 +33,6 @@ const u8 menuXitems[] = {ARRSIZE(fnList0), ARRSIZE(fnList1), ARRSIZE(fnList2), A
 const fptr drawuiX[] = {uiNullNormal, uiFile, uiOptions, uiAbout, uiController, uiDisplay, uiSettings, uiDipswitches, uiLoadGame, uiDummy};
 const u8 menuXback[] = {0,0,0,0,2,2,2,2,1,8};
 
-int emuSettings = 1;
 u8 g_gammaValue = 0;
 
 char *const autoTxt[]	= {"Off","On","With R"};
@@ -53,6 +54,7 @@ char *const singleTxt[]	= {"Single","Dual"};
 
 /// This is called at the start of the emulator
 void setupGUI() {
+	emuSettings = AUTOPAUSE_EMULATION;
 	keysSetRepeat(25, 4);	// Delay, repeat.
 	openMenu();
 }
@@ -68,7 +70,7 @@ void exitGUI() {
 void quickSelectGame(void) {
 	while (loadGame(selected)) {
 		setSelectedMenu(9);
-		if (!browseForFileType(FILEEXTENSIONS".zip")) {
+		if (!browseForFileType(FILEEXTENSIONS)) {
 			backOutOfMenu();
 			return;
 		}

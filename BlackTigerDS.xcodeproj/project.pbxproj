@@ -81,6 +81,7 @@
 		9C7BB93825F3D70500EA9C9C /* BlackTiger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackTiger.h; sourceTree = "<group>"; };
 		9C7BB94025FBB0DF00EA9C9C /* EmuFont.grit */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EmuFont.grit; sourceTree = "<group>"; };
 		9C7BB94125FBB0DF00EA9C9C /* EmuFont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EmuFont.png; sourceTree = "<group>"; };
+		9CBEE0D226EE16070095347A /* EmuSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmuSettings.h; sourceTree = "<group>"; };
 		9CC0F92F26D6AC680035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9CC0F93026D6AC780035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9CC0F93126D6AC920035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -89,7 +90,6 @@
 		9CC0F93426D6ACCD0035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9CC0F93526D6AD370035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = arm9/source/Shared/Unzip/README.md; sourceTree = SOURCE_ROOT; };
 		A4AA02141B04077F0043E4D4 /* History.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = History.txt; sourceTree = "<group>"; };
-		A4AA02151B05DCEB0043E4D4 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -99,7 +99,6 @@
 				9C4DF0CB24AB971B00FB4EB0 /* BlackTigerDS_todo.txt */,
 				A4AA02141B04077F0043E4D4 /* History.txt */,
 				9CC0F93426D6ACCD0035478F /* README.md */,
-				A4AA02151B05DCEB0043E4D4 /* readme.txt */,
 				9C29494326093D5400EDA7C9 /* Capcom.bmp */,
 				A42D026C205FEDD800515C72 /* Docs */,
 				746D78E014ED9A6D00CC738F /* makefile */,
@@ -166,6 +165,7 @@
 				9C4DF18D24B4ECB300FB4EB0 /* unzip */,
 				9CC0F93326D6ACAD0035478F /* README.md */,
 				9C4DF19224B4ECB300FB4EB0 /* nds_asm.h */,
+				9CBEE0D226EE16070095347A /* EmuSettings.h */,
 				9C4DF18B24B4ECB300FB4EB0 /* EmuMenu.h */,
 				9C4DF19724B4ECB300FB4EB0 /* EmuMenu.c */,
 				9C4DF19624B4ECB300FB4EB0 /* FileHelper.h */,

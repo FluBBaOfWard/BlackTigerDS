@@ -7,6 +7,8 @@
 
 #include "FileHandling.h"
 #include "Shared/EmuMenu.h"
+#include "Shared/EmuSettings.h"
+#include "Shared/FileHelper.h"
 #include "Shared/unzip/unzipnds.h"
 #include "Shared/EmubaseAC.h"
 #include "Main.h"
@@ -19,7 +21,10 @@
 static const char *const folderName = "acds";
 static const char *const settingName = "settings.cfg";
 
+static int selectedGame = 0;
 ConfigData cfg;
+
+static bool loadRoms(int gameNr, bool doLoad);
 
 //---------------------------------------------------------------------------------
 int loadSettings() {
