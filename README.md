@@ -1,4 +1,4 @@
-# BlackTigerDS V0.1.10
+# BlackTigerDS V0.2.0
 --------------------------------------------------------------------------------
 This is a Black Tiger & Black Dragon - Arcade emulator for the NDS.
 It has no tile priority, and no screenflip support.
@@ -7,7 +7,7 @@ You should still be able to enjoy the game though. =)
 --------------------------------------------------------------------------------
 How to use:
 --------------------------------------------------------------------------------
-First DLDI patch the emulator for your flashcard.
+Depending on your flashcart you might have to DLDI patch the emulator.
 Create a folder named "acds" in either the root of your flash card or in the
 data folder. Now put blktiger.zip, blkdrgon.zip and/or blkdrgonb.zip into a
 folder where you have arcade roms.
