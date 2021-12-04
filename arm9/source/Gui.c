@@ -14,7 +14,7 @@
 #include "BlackTigerVideo/Version.h"
 #include "../../arm7/source/YM2203/Version.h"
 
-#define EMUVERSION "V0.2.0 2021-10-16"
+#define EMUVERSION "V0.2.0 2021-12-04"
 
 const fptr fnMain[] = {nullUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI};
 
@@ -33,7 +33,7 @@ const u8 menuXItems[] = {ARRSIZE(fnList0), ARRSIZE(fnList1), ARRSIZE(fnList2), A
 const fptr drawUIX[] = {uiNullNormal, uiFile, uiOptions, uiAbout, uiController, uiDisplay, uiSettings, uiDipswitches, uiLoadGame, uiDummy};
 const u8 menuXBack[] = {0,0,0,0,2,2,2,2,1,8};
 
-u8 g_gammaValue = 0;
+u8 gGammaValue = 0;
 
 char *const autoTxt[]	= {"Off","On","With R"};
 char *const speedTxt[]	= {"Normal","200%","Max","50%"};
@@ -129,12 +129,12 @@ void uiController() {
 
 void uiDisplay() {
 	setupSubMenu("Display Settings");
-	drawSubItem("Display: ", dispTxt[g_scaling]);
-	drawSubItem("Scaling: ", flickTxt[g_flicker]);
-	drawSubItem("Gamma: ", brighTxt[g_gammaValue]);
-	drawSubItem("Disable Foreground: ", autoTxt[g_gfxMask&1]);
-	drawSubItem("Disable Background: ", autoTxt[(g_gfxMask>>1)&1]);
-	drawSubItem("Disable Sprites: ", autoTxt[(g_gfxMask>>4)&1]);
+	drawSubItem("Display: ", dispTxt[gScaling]);
+	drawSubItem("Scaling: ", flickTxt[gFlicker]);
+	drawSubItem("Gamma: ", brighTxt[gGammaValue]);
+	drawSubItem("Disable Foreground: ", autoTxt[gGfxMask&1]);
+	drawSubItem("Disable Background: ", autoTxt[(gGfxMask>>1)&1]);
+	drawSubItem("Disable Sprites: ", autoTxt[(gGfxMask>>4)&1]);
 }
 
 void uiSettings() {
@@ -152,15 +152,15 @@ void uiSettings() {
 void uiDipswitches() {
 //	char s[10];
 	setupSubMenu("Dipswitch Settings");
-	drawSubItem("Coin A: ", coinTxt[g_dipSwitch0 & 0x7]);
-	drawSubItem("Coin B: ", coinTxt[(g_dipSwitch0>>3) & 0x7]);
-	drawSubItem("Difficulty: ", diffTxt[(g_dipSwitch1>>2)&7]);
-	drawSubItem("Allow Continue: ", autoTxt[(~g_dipSwitch1>>6)&1]);
-	drawSubItem("Cabinet: ", cabTxt[(g_dipSwitch1>>7)&1]);
-	drawSubItem("Lives: ", livesTxt[g_dipSwitch1 & 3]);
-	drawSubItem("Demo Sound: ", autoTxt[(~g_dipSwitch1>>5)&1]);
-	drawSubItem("Flip Screen: ", autoTxt[(g_dipSwitch0>>6)&1]);
-	drawSubItem("Service Mode: ", autoTxt[(g_dipSwitch0>>7)&1]);
+	drawSubItem("Coin A: ", coinTxt[gDipSwitch0 & 0x7]);
+	drawSubItem("Coin B: ", coinTxt[(gDipSwitch0>>3) & 0x7]);
+	drawSubItem("Difficulty: ", diffTxt[(gDipSwitch1>>2)&7]);
+	drawSubItem("Allow Continue: ", autoTxt[(~gDipSwitch1>>6)&1]);
+	drawSubItem("Cabinet: ", cabTxt[(gDipSwitch1>>7)&1]);
+	drawSubItem("Lives: ", livesTxt[gDipSwitch1 & 3]);
+	drawSubItem("Demo Sound: ", autoTxt[(~gDipSwitch1>>5)&1]);
+	drawSubItem("Flip Screen: ", autoTxt[(gDipSwitch0>>6)&1]);
+	drawSubItem("Service Mode: ", autoTxt[(gDipSwitch0>>7)&1]);
 
 //	int2str(g_coin0, s);
 //	drawSubItem("CoinCounter1:       ", s);
@@ -209,70 +209,70 @@ void swapABSet() {
 
 /// Turn on/off scaling
 void scalingSet(){
-	g_scaling ^= 0x01;
+	gScaling ^= 0x01;
 	refreshGfx();
 }
 
 /// Change gamma (brightness)
 void gammaSet() {
-	g_gammaValue++;
-	if (g_gammaValue > 4) g_gammaValue=0;
-	paletteInit(g_gammaValue);
+	gGammaValue++;
+	if (gGammaValue > 4) gGammaValue=0;
+	paletteInit(gGammaValue);
 	paletteTxAll();					// Make new palette visible
 	setupMenuPalette();
 }
 
 /// Turn on/off rendering of foreground
 void fgrLayerSet(){
-	g_gfxMask ^= 0x01;
+	gGfxMask ^= 0x01;
 }
 /// Turn on/off rendering of background
 void bgrLayerSet(){
-	g_gfxMask ^= 0x02;
+	gGfxMask ^= 0x02;
 }
 /// Turn on/off rendering of sprites
 void sprLayerSet(){
-	g_gfxMask ^= 0x10;
+	gGfxMask ^= 0x10;
 }
 
 
 /// Number of coins for credits
 void coinASet() {
-	int i = (g_dipSwitch0+1) & 0x7;
-	g_dipSwitch0 = (g_dipSwitch0 & ~0x7) | i;
+	int i = (gDipSwitch0+1) & 0x7;
+	gDipSwitch0 = (gDipSwitch0 & ~0x7) | i;
 }
 /// Number of coins for credits
 void coinBSet() {
-	int i = (g_dipSwitch0+0x08) & 0x38;
-	g_dipSwitch0 = (g_dipSwitch0 & ~0x38) | i;
+	int i = (gDipSwitch0+0x08) & 0x38;
+	gDipSwitch0 = (gDipSwitch0 & ~0x38) | i;
 }
 /// Game difficulty
 void difficultSet() {
-	int i = (g_dipSwitch1+0x04) & 0x1C;
-	g_dipSwitch1 = (g_dipSwitch1 & ~0x1C) | i;
+	int i = (gDipSwitch1+0x04) & 0x1C;
+	gDipSwitch1 = (gDipSwitch1 & ~0x1C) | i;
 }
 /// Allow continue
 void continueSet() {
-	g_dipSwitch1 ^= 0x40;
+	gDipSwitch1 ^= 0x40;
 }
 /// Cocktail/upright
 void cabinetSet() {
-	g_dipSwitch1 ^= 0x80;
+	gDipSwitch1 ^= 0x80;
 }
 /// Number of lifes to start with
 void livesSet() {
-	int i = (g_dipSwitch1+1) & 3;
-	g_dipSwitch1 = (g_dipSwitch1 & ~3) | i;
+	int i = (gDipSwitch1+1) & 3;
+	gDipSwitch1 = (gDipSwitch1 & ~3) | i;
 }
 /// Demo sound on/off
 void demoSet() {
-	g_dipSwitch1 ^= 0x20;
+	gDipSwitch1 ^= 0x20;
 }
 /// Flip screen
 void flipSet() {
-	g_dipSwitch0 ^= 0x40;
+	gDipSwitch0 ^= 0x40;
 }
 /// Test/Service mode
 void serviceSet() {
-	g_dipSwitch0 ^= 0x80;
+	gDipSwitch0 ^= 0x80;
 }

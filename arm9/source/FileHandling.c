@@ -47,17 +47,17 @@ int loadSettings() {
 		return 1;
 	}
 
-	g_scaling    = cfg.scaling&1;
-	g_flicker    = cfg.flicker&1;
-	g_gammaValue = cfg.gammaValue;
+	gScaling    = cfg.scaling&1;
+	gFlicker    = cfg.flicker&1;
+	gGammaValue = cfg.gammaValue;
 	emuSettings  = cfg.emuSettings &~ 0xC0;			// Clear speed setting.
 	sleepTime    = cfg.sleepTime;
 	joyCfg       = (joyCfg&~0x400)|((cfg.controller&1)<<10);
 	strlcpy(currentDir, cfg.currentPath, sizeof(currentDir));
-	g_dipSwitch0 = cfg.dipSwitchBT0;
-	g_dipSwitch1 = cfg.dipSwitchBT1;
-	g_dipSwitch2 = cfg.dipSwitchBT2;
-	g_dipSwitch3 = cfg.dipSwitchBT3;
+	gDipSwitch0 = cfg.dipSwitchBT0;
+	gDipSwitch1 = cfg.dipSwitchBT1;
+	gDipSwitch2 = cfg.dipSwitchBT2;
+	gDipSwitch3 = cfg.dipSwitchBT3;
 
 	infoOutput("Settings loaded.");
 	return 0;
@@ -66,17 +66,17 @@ void saveSettings() {
 	FILE *file;
 
 	strcpy(cfg.magic,"cfg");
-	cfg.scaling     = g_scaling&1;
-	cfg.flicker     = g_flicker&1;
-	cfg.gammaValue  = g_gammaValue;
+	cfg.scaling     = gScaling&1;
+	cfg.flicker     = gFlicker&1;
+	cfg.gammaValue  = gGammaValue;
 	cfg.emuSettings = emuSettings &~ 0xC0;			// Clear speed setting.
 	cfg.sleepTime   = sleepTime;
 	cfg.controller  = (joyCfg>>10)&1;
 	strlcpy(cfg.currentPath, currentDir, sizeof(currentDir));
-	cfg.dipSwitchBT0 = g_dipSwitch0;
-	cfg.dipSwitchBT1 = g_dipSwitch1;
-	cfg.dipSwitchBT2 = g_dipSwitch2;
-	cfg.dipSwitchBT3 = g_dipSwitch3;
+	cfg.dipSwitchBT0 = gDipSwitch0;
+	cfg.dipSwitchBT1 = gDipSwitch1;
+	cfg.dipSwitchBT2 = gDipSwitch2;
+	cfg.dipSwitchBT3 = gDipSwitch3;
 
 	if (findFolder(folderName)) {
 		return;
