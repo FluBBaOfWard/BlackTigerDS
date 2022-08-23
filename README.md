@@ -1,4 +1,4 @@
-# BlackTigerDS V0.2.0
+# BlackTigerDS V0.2.1
 --------------------------------------------------------------------------------
 This is a Black Tiger & Black Dragon - Arcade emulator for the NDS.
 It has no tile priority, and no screenflip support.

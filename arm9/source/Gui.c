@@ -14,7 +14,7 @@
 #include "BlackTigerVideo/Version.h"
 #include "../../arm7/source/YM2203/Version.h"
 
-#define EMUVERSION "V0.2.0 2021-12-04"
+#define EMUVERSION "V0.2.1 2022-08-23"
 
 const fptr fnMain[] = {nullUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI};
 

@@ -162,7 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				9C7BB93F25FBB0DF00EA9C9C /* graphics */,
-				9C4DF18D24B4ECB300FB4EB0 /* unzip */,
+				9C4DF18D24B4ECB300FB4EB0 /* Unzip */,
 				9CC0F93326D6ACAD0035478F /* README.md */,
 				9C4DF19224B4ECB300FB4EB0 /* nds_asm.h */,
 				9CBEE0D226EE16070095347A /* EmuSettings.h */,
@@ -180,7 +180,7 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		9C4DF18D24B4ECB300FB4EB0 /* unzip */ = {
+		9C4DF18D24B4ECB300FB4EB0 /* Unzip */ = {
 			isa = PBXGroup;
 			children = (
 				9CC0F93526D6AD370035478F /* README.md */,
@@ -189,7 +189,7 @@
 				9C4DF18F24B4ECB300FB4EB0 /* puff.h */,
 				9C4DF19124B4ECB300FB4EB0 /* puff.c */,
 			);
-			path = unzip;
+			path = Unzip;
 			sourceTree = "<group>";
 		};
 		9C4DF1B324B4ECB400FB4EB0 /* ARMZ80 */ = {
@@ -362,7 +362,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVKITARM = $DEVKITPRO/devkitarm;
-				DEVKITPRO = /opt/devkitpro_old;
+				DEVKITPRO = /opt/devkitpro;
 				PRODUCT_NAME = BlackTigerDS;
 			};
 			name = Debug;
