@@ -47,7 +47,6 @@
 		9C4DF1A324B4ECB300FB4EB0 /* io.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = io.s; sourceTree = "<group>"; };
 		9C4DF1A424B4ECB300FB4EB0 /* Memory.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = Memory.s; sourceTree = "<group>"; };
 		9C4DF1B724B4ECB400FB4EB0 /* ARMZ80_todo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ARMZ80_todo.txt; sourceTree = "<group>"; };
-		9C4DF1BA24B4ECB400FB4EB0 /* Equates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Equates.h; sourceTree = "<group>"; };
 		9C4DF1BC24B4ECB400FB4EB0 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		9C4DF1BD24B4ECB400FB4EB0 /* BlackTigerVideo.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = BlackTigerVideo.i; sourceTree = "<group>"; };
 		9C4DF1BE24B4ECB400FB4EB0 /* BlackTigerVideo.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = BlackTigerVideo.s; sourceTree = "<group>"; };
@@ -134,11 +133,12 @@
 				9C4DF1B324B4ECB400FB4EB0 /* ARMZ80 */,
 				9C4DF1BB24B4ECB400FB4EB0 /* BlackTigerVideo */,
 				9C4DF18A24B4ECB300FB4EB0 /* Shared */,
-				9C4DF1BA24B4ECB400FB4EB0 /* Equates.h */,
 				9C4DF18424B4ECB300FB4EB0 /* Main.h */,
 				9C4DF19C24B4ECB300FB4EB0 /* Main.c */,
 				9C4DF19924B4ECB300FB4EB0 /* Gui.h */,
 				9C4DF18924B4ECB300FB4EB0 /* Gui.c */,
+				9C4DF18624B4ECB300FB4EB0 /* FileHandling.h */,
+				9C4DF19E24B4ECB300FB4EB0 /* FileHandling.c */,
 				9C7BB93825F3D70500EA9C9C /* BlackTiger.h */,
 				9C7BB93725F3D70500EA9C9C /* BlackTiger.c */,
 				9C4DF19A24B4ECB300FB4EB0 /* Cart.h */,
@@ -152,8 +152,6 @@
 				9C4DF19F24B4ECB300FB4EB0 /* Gfx.h */,
 				9C4DF19B24B4ECB300FB4EB0 /* Gfx.s */,
 				9C4DF1A424B4ECB300FB4EB0 /* Memory.s */,
-				9C4DF18624B4ECB300FB4EB0 /* FileHandling.h */,
-				9C4DF19E24B4ECB300FB4EB0 /* FileHandling.c */,
 			);
 			path = source;
 			sourceTree = "<group>";
@@ -195,8 +193,8 @@
 		9C4DF1B324B4ECB400FB4EB0 /* ARMZ80 */ = {
 			isa = PBXGroup;
 			children = (
-				9CC0F93126D6AC920035478F /* README.md */,
 				9C4DF1B724B4ECB400FB4EB0 /* ARMZ80_todo.txt */,
+				9CC0F93126D6AC920035478F /* README.md */,
 				9C5082B325E199D200A8E1BA /* History.txt */,
 				9C5082B525E199D200A8E1BA /* Version.h */,
 				9C5082B225E199D200A8E1BA /* ARMZ80.h */,

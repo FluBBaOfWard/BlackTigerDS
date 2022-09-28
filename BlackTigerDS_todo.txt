@@ -16,6 +16,7 @@ CPU:
 	Timing?
 
 GUI:
+	Add debug menu.
 
 Sound:
 	Get sound cpu working.

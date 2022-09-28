@@ -10,16 +10,16 @@
 int packState(void *statePtr) {
 	int size = 0;
 	size += blkTgrSaveState(statePtr+size, &blkTgrVideo_0);
-	size += Z80SaveState(statePtr+size, &z80CPU1);
 	size += Z80SaveState(statePtr+size, &Z80OpTable);
+	size += Z80SaveState(statePtr+size, &z80CPU1);
 	return size;
 }
 
 void unpackState(const void *statePtr) {
 	int size = 0;
 	size += blkTgrLoadState(&blkTgrVideo_0, statePtr+size);
+	size += Z80LoadState(&Z80OpTable, statePtr+size);
 	size += Z80LoadState(&z80CPU1, statePtr+size);
-	Z80LoadState(&Z80OpTable, statePtr+size);
 	refreshGfx();
 }
 

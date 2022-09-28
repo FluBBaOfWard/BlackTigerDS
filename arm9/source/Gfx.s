@@ -1,7 +1,7 @@
 #ifdef __arm__
 
 #include "Shared/nds_asm.h"
-#include "Equates.h"
+#include "Shared/EmuSettings.h"
 #include "ARMZ80/ARMZ80.i"
 #include "BlackTigerVideo/BlackTigerVideo.i"
 

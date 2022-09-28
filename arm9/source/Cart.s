@@ -1,6 +1,6 @@
 #ifdef __arm__
 
-#include "Equates.h"
+#include "Shared/EmuSettings.h"
 #include "ARMZ80/ARMZ80mac.h"
 #include "BlackTigerVideo/BlackTigerVideo.i"
 
@@ -238,7 +238,7 @@ romNum:
 	.long 0						;@ romnumber
 romInfo:						;@ Keep emuflags/BGmirror together for savestate/loadstate
 emuFlags:
-	.byte 0						;@ emuflags      (label this so UI.C can take a peek) see equates.h for bitfields
+	.byte 0						;@ emuflags      (label this so GUI.c can take a peek) see EmuSettings.h for bitfields
 //scaling:
 	.byte SCALED				;@ (display type)
 	.byte 0,0					;@ (sprite follow val)

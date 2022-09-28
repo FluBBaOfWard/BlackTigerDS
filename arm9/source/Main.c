@@ -4,6 +4,7 @@
 #include "Main.h"
 #include "Shared/EmuMenu.h"
 #include "Shared/AsmExtra.h"
+#include "Shared/FileHelper.h"
 #include "Gui.h"
 #include "FileHandling.h"
 #include "EmuFont.h"

@@ -14,7 +14,7 @@
 #include "BlackTigerVideo/Version.h"
 #include "../../arm7/source/YM2203/Version.h"
 
-#define EMUVERSION "V0.2.1 2022-08-23"
+#define EMUVERSION "V0.2.1 2022-09-28"
 
 const fptr fnMain[] = {nullUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI};
 
@@ -35,21 +35,21 @@ const u8 menuXBack[] = {0,0,0,0,2,2,2,2,1,8};
 
 u8 gGammaValue = 0;
 
-char *const autoTxt[]	= {"Off","On","With R"};
-char *const speedTxt[]	= {"Normal","200%","Max","50%"};
-char *const sleepTxt[]	= {"5min","10min","30min","Off"};
-char *const brighTxt[]	= {"I","II","III","IIII","IIIII"};
-char *const ctrlTxt[]	= {"1P","2P"};
-char *const dispTxt[]	= {"Unscaled","Scaled"};
-char *const flickTxt[]	= {"No Flicker","Flicker"};
+char *const autoTxt[]	= {"Off", "On", "With R"};
+char *const speedTxt[]	= {"Normal", "200%", "Max", "50%"};
+char *const brighTxt[]	= {"I", "II", "III", "IIII", "IIIII"};
+char *const sleepTxt[]	= {"5min", "10min", "30min", "Off"};
+char *const ctrlTxt[]	= {"1P", "2P"};
+char *const dispTxt[]	= {"Unscaled", "Scaled"};
+char *const flickTxt[]	= {"No Flicker", "Flicker"};
 
-char *const coinTxt[]	= { "1 Coin 1 Credit","1 Coin 2 Credits","1 Coin 3 Credits","1 Coin 4 Credits",\
+char *const coinTxt[]	= { "1 Coin 1 Credit", "1 Coin 2 Credits","1 Coin 3 Credits","1 Coin 4 Credits",\
 							"1 Coin 5 Credits","2 Coins 1 Credit","3 Coins 1 Credit","4 Coins 1 Credit"};
-char *const diffTxt[]	= {"Easiest","Very Easy","Easy","Quite Easy","Normal","Hard","Very Hard","Hardest"};
-char *const livesTxt[]	= {"3","2","5","7"};
-char *const bonusTxt[]	= {"30K 70K 70K+","40K 80K 80K+","50K 100K 100K+","50K 200K 200K+"};
-char *const cabTxt[]	= {"Cocktail","Upright"};
-char *const singleTxt[]	= {"Single","Dual"};
+char *const diffTxt[]	= {"Easiest", "Very Easy", "Easy", "Quite Easy", "Normal", "Hard", "Very Hard", "Hardest"};
+char *const livesTxt[]	= {"3", "2", "5", "7"};
+char *const bonusTxt[]	= {"30K 70K 70K+", "40K 80K 80K+", "50K 100K 100K+", "50K 200K 200K+"};
+char *const cabTxt[]	= {"Cocktail", "Upright"};
+char *const singleTxt[]	= {"Single", "Dual"};
 
 
 /// This is called at the start of the emulator

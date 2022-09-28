@@ -57,15 +57,13 @@ capcomFrameLoop:
 ;@----------------------------------------------------------------------------
 	ldr z80optbl,=z80CPU1
 	mov r0,#CYCLE_PSL1
-//	b Z80RestoreAndRunXCycles
-BTCPU1End:
+//	bl Z80RestoreAndRunXCycles
 	add r0,z80optbl,#z80Regs
 //	stmia r0,{z80f-z80pc,z80sp}	;@ Save Z80 state
 ;@--------------------------------------
 	ldr z80optbl,=Z80OpTable
 	mov r0,#CYCLE_PSL
-	b Z80RestoreAndRunXCycles
-BTCPU0End:
+	bl Z80RestoreAndRunXCycles
 	add r0,z80optbl,#z80Regs
 	stmia r0,{z80f-z80pc,z80sp}	;@ Save Z80 state
 ;@--------------------------------------
@@ -128,11 +126,8 @@ cpuReset:		;@ Called by loadCart/resetGame
 	adr r4,cpuMapData
 	bl mapZ80Memory
 
-	adr r0,BTCPU0End
-	str r0,[z80optbl,#z80NextTimeout]
-	str r0,[z80optbl,#z80NextTimeout_]
-
-	mov r0,#0
+	mov r0,z80optbl
+	mov r1,#0
 	bl Z80Reset
 
 ;@---Speed - 3.579MHz / 60Hz	;Black Tiger / Black Dragon, audio
@@ -144,11 +139,8 @@ cpuReset:		;@ Called by loadCart/resetGame
 	adr r4,cpuMapData+8
 	bl mapZ80Memory
 
-	adr r0,BTCPU1End
-	str r0,[z80optbl,#z80NextTimeout]
-	str r0,[z80optbl,#z80NextTimeout_]
-
-	mov r0,#0
+	mov r0,z80optbl
+	mov r1,#0
 	bl Z80Reset
 
 	ldmfd sp!,{lr}
