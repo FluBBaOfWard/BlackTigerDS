@@ -113,7 +113,7 @@ bool loadGame(int gameNr) {
 	drawText(" Loading roms", 10, 0);
 	loadRoms(gameNr, true);
 	selectedGame = gameNr;
-	strlcpy(currentFilename, games[selectedGame].gameName, sizeof(currentFilename));
+	strlcpy(currentFilename, blktigerGames[selectedGame].gameName, sizeof(currentFilename));
 	setEmuSpeed(0);
 	loadCart(gameNr,0);
 	if (emuSettings & AUTOLOAD_STATE) {
@@ -126,71 +126,5 @@ bool loadGame(int gameNr) {
 }
 
 bool loadRoms(int gameNr, bool doLoad) {
-	int i, j;
-	bool found;
-	const ArcadeGame *game = &games[gameNr];
-	char zipName[32];
-	char zipSubName[32];
-	u8 *romArea = ROM_Space;
-	FILE *file;
-
-	const int romCount = game->romCount;
-	strlMerge(zipName, game->gameName, ".zip", sizeof(zipName));
-
-	chdir("/");			// Stupid workaround.
-	if (chdir(currentDir) == -1) {
-		return true;
-	}
-
-	for (i=0; i<romCount; i++) {
-		found = false;
-		drawSpinner();
-		const char *romName = game->roms[i].romName;
-		const int romSize = game->roms[i].romSize;
-		const u32 romCRC = game->roms[i].romCRC;
-		if (strcmp(romName, FILL0XFF) == 0) {
-			memset(romArea, 0xFF, romSize);
-			romArea += romSize;
-			continue;
-		}
-		if (strcmp(romName, FILL0X00) == 0) {
-			memset(romArea, 0x00, romSize);
-			romArea += romSize;
-			continue;
-		}
-		if ( (file = fopen(romName, "r")) ) {
-			if (doLoad) {
-				fread(romArea, 1, romSize, file);
-				romArea += romSize;
-			}
-			fclose(file);
-			found = true;
-		}
-		else if (!findFileWithCRC32InZip(zipName, romCRC)) {
-			if (doLoad) {
-				loadFileWithCRC32InZip(romArea, zipName, romCRC, romSize);
-				romArea += romSize;
-			}
-			found = true;
-		}
-		else {
-			for (j=0; j<GAME_COUNT; j++) {
-				strlMerge(zipSubName, games[j].gameName, ".zip", sizeof(zipName));
-				if (!findFileWithCRC32InZip(zipSubName, romCRC)) {
-					if (doLoad) {
-						loadFileWithCRC32InZip(romArea, zipSubName, romCRC, romSize);
-						romArea += romSize;
-					}
-					found = true;
-					break;
-				}
-			}
-		}
-		if (!found) {
-			infoOutput("Couldn't open file:");
-			infoOutput(romName);
-			return true;
-		}
-	}
-	return false;
+	return loadACRoms(ROM_Space, blktigerGames, gameNr, ARRSIZE(blktigerGames), doLoad);
 }

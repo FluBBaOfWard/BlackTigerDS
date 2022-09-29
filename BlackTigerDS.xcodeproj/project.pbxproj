@@ -88,6 +88,7 @@
 		9CC0F93326D6ACAD0035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9CC0F93426D6ACCD0035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9CC0F93526D6AD370035478F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = arm9/source/Shared/Unzip/README.md; sourceTree = SOURCE_ROOT; };
+		9CD304E228E607FD00ACD6A7 /* ArcadeRoms.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ArcadeRoms.c; sourceTree = "<group>"; };
 		A4AA02141B04077F0043E4D4 /* History.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = History.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -174,6 +175,7 @@
 				9C4DF19424B4ECB300FB4EB0 /* AsmExtra.s */,
 				9C29494A260E032E00EDA7C9 /* EmubaseAC.h */,
 				9C294949260E032E00EDA7C9 /* ArcadeRoms.h */,
+				9CD304E228E607FD00ACD6A7 /* ArcadeRoms.c */,
 			);
 			path = Shared;
 			sourceTree = "<group>";

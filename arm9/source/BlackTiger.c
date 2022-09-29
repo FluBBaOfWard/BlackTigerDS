@@ -177,7 +177,6 @@ static const ArcadeRom blkdrgonRoms[19] = {
 	{"bd04.11l",   0x0100, 0xe5490b68},
 };
 
-
 static const ArcadeRom blkdrgonbRoms[19] = {
 	// ROM_REGION( 0x50000, "maincpu", 0 ) /* 64k for code + banked ROMs images */
 	{"a1",         0x08000, 0x7caf2ba0},
@@ -234,7 +233,7 @@ static const ArcadeRom blktigerb3Roms[19] = {
 	{"bd04.11l",   0x0100, 0xe5490b68},
 };
 
-const ArcadeGame games[GAME_COUNT] = {
+const ArcadeGame blktigerGames[GAME_COUNT] = {
 	{"blktiger", "Black Tiger", 19, blktigerRoms},
 	{"blktigera", "Black Tiger (older)", 19, blktigeraRoms},
 	{"blktigerb1", "Black Tiger (bootleg set 1)", 19, blktigerb1Roms},
