@@ -1,12 +1,10 @@
 #include <nds.h>
 #include <stdio.h>
-#include <unistd.h>
 
 #include "FileHandling.h"
 #include "Shared/EmuMenu.h"
 #include "Shared/EmuSettings.h"
 #include "Shared/FileHelper.h"
-#include "Shared/Unzip/unzipnds.h"
 #include "Shared/EmubaseAC.h"
 #include "Main.h"
 #include "Gui.h"
@@ -17,10 +15,8 @@
 static const char *const folderName = "acds";
 static const char *const settingName = "settings.cfg";
 
-static int selectedGame = 0;
 ConfigData cfg;
-
-static bool loadRoms(int gameNr, bool doLoad);
+static int selectedGame = 0;
 
 //---------------------------------------------------------------------------------
 int loadSettings() {
@@ -104,6 +100,10 @@ void saveState() {
 }
 
 //---------------------------------------------------------------------------------
+static bool loadRoms(int gameNr, bool doLoad) {
+	return loadACRoms(ROM_Space, blktigerGames, gameNr, ARRSIZE(blktigerGames), doLoad);
+}
+
 bool loadGame(int gameNr) {
 	cls(0);
 	drawText(" Checking roms", 10, 0);
@@ -123,8 +123,4 @@ bool loadGame(int gameNr) {
 		loadNVRAM();
 	}
 	return false;
-}
-
-bool loadRoms(int gameNr, bool doLoad) {
-	return loadACRoms(ROM_Space, blktigerGames, gameNr, ARRSIZE(blktigerGames), doLoad);
 }

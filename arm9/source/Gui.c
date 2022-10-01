@@ -7,6 +7,7 @@
 #include "Shared/AsmExtra.h"
 #include "Main.h"
 #include "FileHandling.h"
+#include "BlackTiger.h"
 #include "Cart.h"
 #include "Gfx.h"
 #include "io.h"
@@ -14,7 +15,7 @@
 #include "BlackTigerVideo/Version.h"
 #include "../../arm7/source/YM2203/Version.h"
 
-#define EMUVERSION "V0.2.1 2022-09-28"
+#define EMUVERSION "V0.2.1 2022-10-01"
 
 const fptr fnMain[] = {nullUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI};
 
@@ -121,46 +122,46 @@ void uiAbout() {
 
 void uiController() {
 	setupSubMenu("Controller Settings");
-	drawSubItem("B Autofire: ", autoTxt[autoB]);
-	drawSubItem("A Autofire: ", autoTxt[autoA]);
-	drawSubItem("Controller: ", ctrlTxt[(joyCfg>>29)&1]);
-	drawSubItem("Swap A-B:   ", autoTxt[(joyCfg>>10)&1]);
+	drawSubItem("B Autofire:", autoTxt[autoB]);
+	drawSubItem("A Autofire:", autoTxt[autoA]);
+	drawSubItem("Controller:", ctrlTxt[(joyCfg>>29)&1]);
+	drawSubItem("Swap A-B:  ", autoTxt[(joyCfg>>10)&1]);
 }
 
 void uiDisplay() {
 	setupSubMenu("Display Settings");
-	drawSubItem("Display: ", dispTxt[gScaling]);
-	drawSubItem("Scaling: ", flickTxt[gFlicker]);
-	drawSubItem("Gamma: ", brighTxt[gGammaValue]);
-	drawSubItem("Disable Foreground: ", autoTxt[gGfxMask&1]);
-	drawSubItem("Disable Background: ", autoTxt[(gGfxMask>>1)&1]);
-	drawSubItem("Disable Sprites: ", autoTxt[(gGfxMask>>4)&1]);
+	drawSubItem("Display:", dispTxt[gScaling]);
+	drawSubItem("Scaling:", flickTxt[gFlicker]);
+	drawSubItem("Gamma:", brighTxt[gGammaValue]);
+	drawSubItem("Disable Foreground:", autoTxt[gGfxMask&1]);
+	drawSubItem("Disable Background:", autoTxt[(gGfxMask>>1)&1]);
+	drawSubItem("Disable Sprites:", autoTxt[(gGfxMask>>4)&1]);
 }
 
 void uiSettings() {
 	setupSubMenu("Settings");
-	drawSubItem("Speed: ", speedTxt[(emuSettings>>6)&3]);
-	drawSubItem("Autoload State: ", autoTxt[(emuSettings>>2)&1]);
-	drawSubItem("Autosave Settings: ", autoTxt[(emuSettings>>9)&1]);
-	drawSubItem("Autopause Game: ", autoTxt[emuSettings&1]);
-	drawSubItem("Powersave 2nd Screen: ",autoTxt[(emuSettings>>1)&1]);
-	drawSubItem("Emulator on Bottom: ", autoTxt[(emuSettings>>8)&1]);
-	drawSubItem("Debug Output: ", autoTxt[gDebugSet&1]);
-	drawSubItem("Autosleep: ", sleepTxt[(emuSettings>>4)&3]);
+	drawSubItem("Speed:", speedTxt[(emuSettings>>6)&3]);
+	drawSubItem("Autoload State:", autoTxt[(emuSettings>>2)&1]);
+	drawSubItem("Autosave Settings:", autoTxt[(emuSettings>>9)&1]);
+	drawSubItem("Autopause Game:", autoTxt[emuSettings&1]);
+	drawSubItem("Powersave 2nd Screen:",autoTxt[(emuSettings>>1)&1]);
+	drawSubItem("Emulator on Bottom:", autoTxt[(emuSettings>>8)&1]);
+	drawSubItem("Debug Output:", autoTxt[gDebugSet&1]);
+	drawSubItem("Autosleep:", sleepTxt[(emuSettings>>4)&3]);
 }
 
 void uiDipswitches() {
 //	char s[10];
 	setupSubMenu("Dipswitch Settings");
-	drawSubItem("Coin A: ", coinTxt[gDipSwitch0 & 0x7]);
-	drawSubItem("Coin B: ", coinTxt[(gDipSwitch0>>3) & 0x7]);
-	drawSubItem("Difficulty: ", diffTxt[(gDipSwitch1>>2)&7]);
-	drawSubItem("Allow Continue: ", autoTxt[(~gDipSwitch1>>6)&1]);
-	drawSubItem("Cabinet: ", cabTxt[(gDipSwitch1>>7)&1]);
-	drawSubItem("Lives: ", livesTxt[gDipSwitch1 & 3]);
-	drawSubItem("Demo Sound: ", autoTxt[(~gDipSwitch1>>5)&1]);
-	drawSubItem("Flip Screen: ", autoTxt[(gDipSwitch0>>6)&1]);
-	drawSubItem("Service Mode: ", autoTxt[(gDipSwitch0>>7)&1]);
+	drawSubItem("Coin A:", coinTxt[gDipSwitch0 & 0x7]);
+	drawSubItem("Coin B:", coinTxt[(gDipSwitch0>>3) & 0x7]);
+	drawSubItem("Difficulty:", diffTxt[(gDipSwitch1>>2)&7]);
+	drawSubItem("Allow Continue:", autoTxt[(~gDipSwitch1>>6)&1]);
+	drawSubItem("Cabinet:", cabTxt[(gDipSwitch1>>7)&1]);
+	drawSubItem("Lives:", livesTxt[gDipSwitch1 & 3]);
+	drawSubItem("Demo Sound:", autoTxt[(~gDipSwitch1>>5)&1]);
+	drawSubItem("Flip Screen:", autoTxt[(gDipSwitch0>>6)&1]);
+	drawSubItem("Service Mode:", autoTxt[(gDipSwitch0>>7)&1]);
 
 //	int2str(g_coin0, s);
 //	drawSubItem("CoinCounter1:       ", s);
@@ -170,13 +171,10 @@ void uiDipswitches() {
 
 void uiLoadGame() {
 	setupSubMenu("Load game");
-	drawMenuItem(" Black Tiger");
-	drawMenuItem(" Black Tiger (older)");
-	drawMenuItem(" Black Tiger (bootleg set 1)");
-	drawMenuItem(" Black Tiger (bootleg set 2)");
-	drawMenuItem(" Black Dragon (Japan)");
-	drawMenuItem(" Black Dragon (bootleg)");
-	drawMenuItem(" Black Tiger / Black Dragon (mixed bootleg?)");
+	int i;
+	for (i=0; i<ARRSIZE(blktigerGames); i++) {
+		drawSubItem(blktigerGames[i].fullName, NULL);
+	}
 }
 
 void nullUINormal(int key) {

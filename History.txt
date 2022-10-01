@@ -2,7 +2,7 @@ BlackTigerDS revision history
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-V0.2.1 - 2022-09-28 (FluBBa)
+V0.2.1 - 2022-10-01 (FluBBa)
 	Maintenance release.
 
 V0.2.0 - 2021-10-16 (FluBBa)
