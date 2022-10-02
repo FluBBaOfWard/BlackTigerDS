@@ -38,17 +38,14 @@ Options:
 		Swap A/B: Swap which NDS button is mapped to which arcade button.
 	Display:
 		Display: Here you can select if you want scaled or unscaled screenmode.
-			Unscaled mode:  L & R buttons scroll the screen up and down.
+			Unscaled mode: L & R buttons scroll the screen up and down.
 		Scaling: Here you can select if you want flicker or barebones lineskip.
 		Gamma: Lets you change the gamma ("brightness").
-		Disable Foreground: Turn on/off foreground rendering.
-		Disable Background: Turn on/off background rendering.
-		Disable Sprites: Turn on/off sprite rendering.
 	Settings:
 		Speed: Switch between speed modes.
 			Normal: Game runs at it's normal speed.
 			200%: Game runs at double speed.
-			Max: Game runs at 4 times normal speed (might change in the future).
+			Max: Game runs at 4 times normal speed.
 			50%: Game runs at half speed.
 		Autoload State: Toggle Savestate autoloading.
 			Automagically load the savestate associated with the selected game.
@@ -59,8 +56,13 @@ Options:
 			GUI screen when menu is not active.
 		Emulator on Bottom: Select if top or bottom screen should be used for
 			emulator, when menu is active emulator screen is allways on top.
-		Debug Output: Show an FPS meter for now.
 		Autosleep: Doesn't work.
+	Debug:
+		Debug Output: Show an FPS meter for now.
+		Disable Foreground: Turn on/off foreground rendering.
+		Disable Background: Turn on/off background rendering.
+		Disable Sprites: Turn on/off sprite rendering.
+		Step Frame: Emulate one frame.
 	Dipswitches:
 		Lot of settings for the actual arcade game, difficulty/lives etc.
 

@@ -2,7 +2,7 @@ BlackTigerDS revision history
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-V0.2.1 - 2022-10-01 (FluBBa)
+V0.2.1 - 2022-10-02 (FluBBa)
 	Maintenance release.
 
 V0.2.0 - 2021-10-16 (FluBBa)
@@ -22,8 +22,14 @@ V0.1.5 - 2021-03-17 (FluBBa)
 V0.1.0 - 2021-02-12 (FluBBa)
 	Initial release.
 
-V0.0.1 - 2020-06-08 (FluBBa)
+V0.0.4 - 2020-07-08 (FluBBa)
 	Plays Black Tiger.
 
-V0.0.0 - 2020-06-30 (FluBBa)
+V0.0.3 - 2020-06-30 (FluBBa)
    Started porting from GBA.
+
+V0.0.2 - 2005-12-03 (FluBBa)
+   Second GBA version released.
+
+V0.0.1 - 2005-11-xx (FluBBa)
+   First GBA version released.

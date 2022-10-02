@@ -7,8 +7,9 @@
 #define CYCLE_PSL (254)
 #define CYCLE_PSL1 (226)
 
-	.global cpuReset
 	.global run
+	.global stepFrame
+	.global cpuReset
 	.global frameTotal
 	.global waitMaskIn
 	.global waitMaskOut
@@ -16,11 +17,14 @@
 	.global z80CPU1
 
 
-
 	.syntax unified
 	.arm
 
-	.section .text
+#if GBA
+	.section .ewram, "ax", %progbits	;@ For the GBA
+#else
+	.section .text						;@ For anything else
+#endif
 	.align 2
 ;@----------------------------------------------------------------------------
 run:		;@ Return after 1 frame
@@ -98,6 +102,38 @@ waitMaskIn:			.byte 0
 waitCountOut:		.byte 0
 waitMaskOut:		.byte 0
 
+;@----------------------------------------------------------------------------
+stepFrame:					;@ Return after 1 frame
+	.type stepFrame STT_FUNC
+;@----------------------------------------------------------------------------
+	stmfd sp!,{r4-r11,lr}
+;@----------------------------------------------------------------------------
+ccStepLoop:
+;@----------------------------------------------------------------------------
+	ldr z80optbl,=z80CPU1
+	mov r0,#CYCLE_PSL1
+//	bl Z80RestoreAndRunXCycles
+	add r0,z80optbl,#z80Regs
+//	stmia r0,{z80f-z80pc,z80sp}	;@ Save Z80 state
+;@--------------------------------------
+	ldr z80optbl,=Z80OpTable
+	mov r0,#CYCLE_PSL
+	bl Z80RestoreAndRunXCycles
+	add r0,z80optbl,#z80Regs
+	stmia r0,{z80f-z80pc,z80sp}	;@ Save Z80 state
+;@--------------------------------------
+	ldr btptr,=blkTgrVideo_0
+	bl doScanline
+	cmp r0,#0
+	bne ccStepLoop
+;@----------------------------------------------------------------------------
+
+	ldr r1,frameTotal
+	add r1,r1,#1
+	str r1,frameTotal
+
+	ldmfd sp!,{r4-r11,lr}
+	bx lr
 ;@----------------------------------------------------------------------------
 cpu1SetIRQ:
 ;@----------------------------------------------------------------------------

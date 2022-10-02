@@ -7,32 +7,34 @@
 #include "Shared/AsmExtra.h"
 #include "Main.h"
 #include "FileHandling.h"
-#include "BlackTiger.h"
 #include "Cart.h"
 #include "Gfx.h"
 #include "io.h"
+#include "cpu.h"
 #include "ARMZ80/Version.h"
 #include "BlackTigerVideo/Version.h"
 #include "../../arm7/source/YM2203/Version.h"
 
-#define EMUVERSION "V0.2.1 2022-10-01"
+#define EMUVERSION "V0.2.1 2022-10-02"
 
-const fptr fnMain[] = {nullUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI};
+static void uiDebug(void);
+
+const fptr fnMain[] = {nullUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI};
 
 const fptr fnList0[] = {uiDummy};
-const fptr fnList1[] = {ui8, loadState, saveState, saveSettings, resetGame};
-const fptr fnList2[] = {ui4, ui5, ui6, ui7};
+const fptr fnList1[] = {ui9, loadState, saveState, saveSettings, resetGame};
+const fptr fnList2[] = {ui4, ui5, ui6, ui7, ui8};
 const fptr fnList3[] = {uiDummy};
 const fptr fnList4[] = {autoBSet, autoASet, controllerSet, swapABSet};
-const fptr fnList5[] = {scalingSet, flickSet, gammaSet, fgrLayerSet, bgrLayerSet, sprLayerSet};
-const fptr fnList6[] = {speedSet, autoStateSet, autoSettingsSet, autoPauseGameSet, powerSaveSet, screenSwapSet, debugTextSet, sleepSet};
-const fptr fnList7[] = {coinASet, coinBSet, difficultSet, continueSet, cabinetSet, livesSet, demoSet, flipSet, serviceSet};
-const fptr fnList8[] = {quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame};
-const fptr fnList9[] = {uiDummy};
-const fptr *const fnListX[] = {fnList0, fnList1, fnList2, fnList3, fnList4, fnList5, fnList6, fnList7, fnList8, fnList9};
-const u8 menuXItems[] = {ARRSIZE(fnList0), ARRSIZE(fnList1), ARRSIZE(fnList2), ARRSIZE(fnList3), ARRSIZE(fnList4), ARRSIZE(fnList5), ARRSIZE(fnList6), ARRSIZE(fnList7), ARRSIZE(fnList8), ARRSIZE(fnList9)};
-const fptr drawUIX[] = {uiNullNormal, uiFile, uiOptions, uiAbout, uiController, uiDisplay, uiSettings, uiDipswitches, uiLoadGame, uiDummy};
-const u8 menuXBack[] = {0,0,0,0,2,2,2,2,1,8};
+const fptr fnList5[] = {scalingSet, flickSet, gammaSet};
+const fptr fnList6[] = {speedSet, autoStateSet, autoSettingsSet, autoPauseGameSet, powerSaveSet, screenSwapSet, sleepSet};
+const fptr fnList7[] = {debugTextSet, fgrLayerSet, bgrLayerSet, sprLayerSet, stepFrame};
+const fptr fnList8[] = {coinASet, coinBSet, difficultSet, continueSet, cabinetSet, livesSet, demoSet, flipSet, serviceSet};
+const fptr fnList9[] = {quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame};
+const fptr fnList10[] = {uiDummy};
+const fptr *const fnListX[] = {fnList0, fnList1, fnList2, fnList3, fnList4, fnList5, fnList6, fnList7, fnList8, fnList9, fnList10};
+const u8 menuXItems[] = {ARRSIZE(fnList0), ARRSIZE(fnList1), ARRSIZE(fnList2), ARRSIZE(fnList3), ARRSIZE(fnList4), ARRSIZE(fnList5), ARRSIZE(fnList6), ARRSIZE(fnList7), ARRSIZE(fnList8), ARRSIZE(fnList9), ARRSIZE(fnList10)};
+const fptr drawUIX[] = {uiNullNormal, uiFile, uiOptions, uiAbout, uiController, uiDisplay, uiSettings, uiDebug, uiDipswitches, uiLoadGame, uiDummy};
 
 u8 gGammaValue = 0;
 
@@ -70,7 +72,7 @@ void exitGUI() {
 
 void quickSelectGame(void) {
 	while (loadGame(selected)) {
-		setSelectedMenu(9);
+		ui10();
 		if (!browseForFileType(FILEEXTENSIONS)) {
 			backOutOfMenu();
 			return;
@@ -100,24 +102,25 @@ void uiOptions() {
 	drawMenuItem("Controller");
 	drawMenuItem("Display");
 	drawMenuItem("Settings");
+	drawMenuItem("Debug");
 	drawMenuItem("DipSwitches");
 }
 
 void uiAbout() {
 	cls(1);
 	drawTabs();
-	drawText(" Select: Insert coin",4,0);
-	drawText(" Start:  Start button",5,0);
-	drawText(" DPad:   Move character",6,0);
-	drawText(" Up:     Climb up",7,0);
-	drawText(" Down:   Crouch/climb down",8,0);
-	drawText(" B:      Attack",9,0);
-	drawText(" A:      Jump",10,0);
+	drawMenuText("Select: Insert coin", 4, 0);
+	drawMenuText("Start:  Start button", 5, 0);
+	drawMenuText("DPad:   Move character", 6, 0);
+	drawMenuText("Up:     Climb up", 7, 0);
+	drawMenuText("Down:   Crouch/climb down", 8, 0);
+	drawMenuText("B:      Attack", 9, 0);
+	drawMenuText("A:      Jump", 10, 0);
 
-	drawText(" BlackTigerDS " EMUVERSION, 20, 0);
-	drawText(" ARMZ80       " ARMZ80VERSION, 21, 0);
-	drawText(" BT Video     " BTVIDEOVERSION, 22, 0);
-	drawText(" ARMYM2203    " ARMYM2203VERSION, 23, 0);
+	drawMenuText("BlackTigerDS " EMUVERSION, 20, 0);
+	drawMenuText("ARMZ80       " ARMZ80VERSION, 21, 0);
+	drawMenuText("BT Video     " BTVIDEOVERSION, 22, 0);
+	drawMenuText("ARMYM2203    " ARMYM2203VERSION, 23, 0);
 }
 
 void uiController() {
@@ -133,9 +136,6 @@ void uiDisplay() {
 	drawSubItem("Display:", dispTxt[gScaling]);
 	drawSubItem("Scaling:", flickTxt[gFlicker]);
 	drawSubItem("Gamma:", brighTxt[gGammaValue]);
-	drawSubItem("Disable Foreground:", autoTxt[gGfxMask&1]);
-	drawSubItem("Disable Background:", autoTxt[(gGfxMask>>1)&1]);
-	drawSubItem("Disable Sprites:", autoTxt[(gGfxMask>>4)&1]);
 }
 
 void uiSettings() {
@@ -146,8 +146,16 @@ void uiSettings() {
 	drawSubItem("Autopause Game:", autoTxt[emuSettings&1]);
 	drawSubItem("Powersave 2nd Screen:",autoTxt[(emuSettings>>1)&1]);
 	drawSubItem("Emulator on Bottom:", autoTxt[(emuSettings>>8)&1]);
-	drawSubItem("Debug Output:", autoTxt[gDebugSet&1]);
 	drawSubItem("Autosleep:", sleepTxt[(emuSettings>>4)&3]);
+}
+
+void uiDebug() {
+	setupSubMenu("Debug");
+	drawSubItem("Debug Output:", autoTxt[gDebugSet&1]);
+	drawSubItem("Disable Foreground:", autoTxt[gGfxMask&1]);
+	drawSubItem("Disable Background:", autoTxt[(gGfxMask>>1)&1]);
+	drawSubItem("Disable Sprites:", autoTxt[(gGfxMask>>4)&1]);
+	drawSubItem("Step Frame", NULL);
 }
 
 void uiDipswitches() {
@@ -170,7 +178,7 @@ void uiDipswitches() {
 }
 
 void uiLoadGame() {
-	setupSubMenu("Load game");
+	setupSubMenu("Load Game");
 	int i;
 	for (i=0; i<ARRSIZE(blktigerGames); i++) {
 		drawSubItem(blktigerGames[i].fullName, NULL);

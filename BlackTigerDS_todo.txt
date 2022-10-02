@@ -5,7 +5,6 @@ BlackTigerDS To do
 
 Misc:
 	Add dipswitches to Savestate.
-	Fix files!
 	Show Coin counter?
 	Pad left and right to switch Tabs in GUI?
 
@@ -16,7 +15,6 @@ CPU:
 	Timing?
 
 GUI:
-	Add debug menu.
 
 Sound:
 	Get sound cpu working.

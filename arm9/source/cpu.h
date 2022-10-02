@@ -11,8 +11,9 @@ extern u8 waitMaskIn;
 extern u8 waitMaskOut;
 extern ARMZ80Core z80CPU1;
 
-void cpuReset(void);
 void run(void);
+void stepFrame(void);
+void cpuReset(void);
 
 #ifdef __cplusplus
 } // extern "C"

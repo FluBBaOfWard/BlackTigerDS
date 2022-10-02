@@ -39,17 +39,17 @@ int loadSettings() {
 		return 1;
 	}
 
-	gScaling    = cfg.scaling&1;
-	gFlicker    = cfg.flicker&1;
-	gGammaValue = cfg.gammaValue;
+	gScaling     = cfg.scaling&1;
+	gFlicker     = cfg.flicker&1;
+	gGammaValue  = cfg.gammaValue;
 	emuSettings  = cfg.emuSettings &~ 0xC0;			// Clear speed setting.
 	sleepTime    = cfg.sleepTime;
 	joyCfg       = (joyCfg&~0x400)|((cfg.controller&1)<<10);
 	strlcpy(currentDir, cfg.currentPath, sizeof(currentDir));
-	gDipSwitch0 = cfg.dipSwitchBT0;
-	gDipSwitch1 = cfg.dipSwitchBT1;
-	gDipSwitch2 = cfg.dipSwitchBT2;
-	gDipSwitch3 = cfg.dipSwitchBT3;
+	gDipSwitch0  = cfg.dipSwitchBT0;
+	gDipSwitch1  = cfg.dipSwitchBT1;
+	gDipSwitch2  = cfg.dipSwitchBT2;
+	gDipSwitch3  = cfg.dipSwitchBT3;
 
 	infoOutput("Settings loaded.");
 	return 0;
