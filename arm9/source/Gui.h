@@ -10,6 +10,7 @@ extern u8 gGammaValue;
 void setupGUI(void);
 void enterGUI(void);
 void exitGUI(void);
+void autoLoadGame(void);
 void quickSelectGame(void);
 void nullUINormal(int key);
 void nullUIDebug(int key);
