@@ -176,8 +176,8 @@ initMappingPage:	;@ r0=page, r1=mem, r2=rdMem, r3=wrMem
 ;@----------------------------------------------------------------------------
 blkTgrMapper:				;@ Switch bank for 0x8000-0xBFFF, 16 banks.
 ;@----------------------------------------------------------------------------
-	stmfd sp!,{r3,z80optbl,lr}
-	ldr z80optbl,=Z80OpTable
+	stmfd sp!,{r3,z80ptr,lr}
+	ldr z80ptr,=Z80OpTable
 
 	and r3,r0,#0xF
 	mov r3,r3,lsl#1
@@ -188,7 +188,7 @@ blkTgrMapper:				;@ Switch bank for 0x8000-0xBFFF, 16 banks.
 	mov r0,#0x20
 	bl z80Mapper
 
-	ldmfd sp!,{r3,z80optbl,pc}
+	ldmfd sp!,{r3,z80ptr,pc}
 ;@----------------------------------------------------------------------------
 z80Mapper:		;@ Rom paging..
 ;@----------------------------------------------------------------------------
@@ -204,9 +204,9 @@ z80Mapper:		;@ Rom paging..
 	cmp r1,#0xF8
 	movmi r5,#12
 
-	add r6,z80optbl,#z80ReadTbl
-	add r7,z80optbl,#z80WriteTbl
-	add r8,z80optbl,#z80MemTbl
+	add r6,z80ptr,#z80ReadTbl
+	add r7,z80ptr,#z80WriteTbl
+	add r8,z80ptr,#z80MemTbl
 	b z80MemAps
 z80MemApl:
 	add r6,r6,#4

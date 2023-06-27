@@ -1,11 +1,10 @@
 BlackTigerDS To do
 -------------------
 
-
+	Start sound cpu, fix boot check.
 
 Misc:
 	Add dipswitches to Savestate.
-	Show Coin counter?
 	Pad left and right to switch Tabs in GUI?
 
 Graphic:

@@ -15,7 +15,7 @@
 #include "BlackTigerVideo/Version.h"
 #include "../../arm7/source/YM2203/Version.h"
 
-#define EMUVERSION "V0.2.1 2022-10-02"
+#define EMUVERSION "V0.2.1 2023-06-27"
 
 static void uiDebug(void);
 
@@ -123,6 +123,12 @@ void uiAbout() {
 	drawMenuText("B:      Attack", 9, 0);
 	drawMenuText("A:      Jump", 10, 0);
 
+	char s[10];
+	int2Str(coinCounter0, s);
+	drawStrings("CoinCounter1:", s, 1, 16, 0);
+	int2Str(coinCounter1, s);
+	drawStrings("CoinCounter2:", s, 1, 17, 0);
+
 	drawMenuText("BlackTigerDS " EMUVERSION, 20, 0);
 	drawMenuText("ARMZ80       " ARMZ80VERSION, 21, 0);
 	drawMenuText("BT Video     " BTVIDEOVERSION, 22, 0);
@@ -165,7 +171,6 @@ void uiDebug() {
 }
 
 void uiDipswitches() {
-//	char s[10];
 	setupSubMenu("Dipswitch Settings");
 	drawSubItem("Coin A:", coinTxt[gDipSwitch0 & 0x7]);
 	drawSubItem("Coin B:", coinTxt[(gDipSwitch0>>3) & 0x7]);
@@ -176,11 +181,6 @@ void uiDipswitches() {
 	drawSubItem("Demo Sound:", autoTxt[(~gDipSwitch1>>5)&1]);
 	drawSubItem("Flip Screen:", autoTxt[(gDipSwitch0>>6)&1]);
 	drawSubItem("Service Mode:", autoTxt[(gDipSwitch0>>7)&1]);
-
-//	int2str(g_coin0, s);
-//	drawSubItem("CoinCounter1:       ", s);
-//	int2str(g_coin1, s);
-//	drawSubItem("CoinCounter2:       ", s);
 }
 
 void uiLoadGame() {

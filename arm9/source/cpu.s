@@ -59,16 +59,16 @@ runStart:
 ;@----------------------------------------------------------------------------
 capcomFrameLoop:
 ;@----------------------------------------------------------------------------
-	ldr z80optbl,=z80CPU1
+	ldr z80ptr,=z80CPU1
 	mov r0,#CYCLE_PSL1
 //	bl Z80RestoreAndRunXCycles
-	add r0,z80optbl,#z80Regs
+	add r0,z80ptr,#z80Regs
 //	stmia r0,{z80f-z80pc,z80sp}	;@ Save Z80 state
 ;@--------------------------------------
-	ldr z80optbl,=Z80OpTable
+	ldr z80ptr,=Z80OpTable
 	mov r0,#CYCLE_PSL
 	bl Z80RestoreAndRunXCycles
-	add r0,z80optbl,#z80Regs
+	add r0,z80ptr,#z80Regs
 	stmia r0,{z80f-z80pc,z80sp}	;@ Save Z80 state
 ;@--------------------------------------
 	ldr btptr,=blkTgrVideo_0
@@ -110,16 +110,16 @@ stepFrame:					;@ Return after 1 frame
 ;@----------------------------------------------------------------------------
 ccStepLoop:
 ;@----------------------------------------------------------------------------
-	ldr z80optbl,=z80CPU1
+	ldr z80ptr,=z80CPU1
 	mov r0,#CYCLE_PSL1
 //	bl Z80RestoreAndRunXCycles
-	add r0,z80optbl,#z80Regs
+	add r0,z80ptr,#z80Regs
 //	stmia r0,{z80f-z80pc,z80sp}	;@ Save Z80 state
 ;@--------------------------------------
-	ldr z80optbl,=Z80OpTable
+	ldr z80ptr,=Z80OpTable
 	mov r0,#CYCLE_PSL
 	bl Z80RestoreAndRunXCycles
-	add r0,z80optbl,#z80Regs
+	add r0,z80ptr,#z80Regs
 	stmia r0,{z80f-z80pc,z80sp}	;@ Save Z80 state
 ;@--------------------------------------
 	ldr btptr,=blkTgrVideo_0
@@ -137,10 +137,10 @@ ccStepLoop:
 ;@----------------------------------------------------------------------------
 cpu1SetIRQ:
 ;@----------------------------------------------------------------------------
-	stmfd sp!,{z80optbl,lr}
-	ldr z80optbl,=z80CPU1
+	stmfd sp!,{z80ptr,lr}
+	ldr z80ptr,=z80CPU1
 	bl Z80SetIRQPin
-	ldmfd sp!,{z80optbl,pc}
+	ldmfd sp!,{z80ptr,pc}
 ;@----------------------------------------------------------------------------
 cpuReset:		;@ Called by loadCart/resetGame
 ;@----------------------------------------------------------------------------
@@ -151,10 +151,10 @@ cpuReset:		;@ Called by loadCart/resetGame
 	str r0,cyclesPerScanline
 
 ;@--------------------------------------
-	ldr z80optbl,=Z80OpTable
+	ldr z80ptr,=Z80OpTable
 
 	ldr r0,=z80CPU1
-	mov r1,z80optbl
+	mov r1,z80ptr
 	ldr r2,=z80Size
 	bl memcpy
 
@@ -162,7 +162,7 @@ cpuReset:		;@ Called by loadCart/resetGame
 	adr r4,cpuMapData
 	bl mapZ80Memory
 
-	mov r0,z80optbl
+	mov r0,z80ptr
 	mov r1,#0
 	bl Z80Reset
 
@@ -170,12 +170,12 @@ cpuReset:		;@ Called by loadCart/resetGame
 //	ldr r0,=CYCLE_PSL			;@ 226
 //	str r0,cyclesPerScanline
 ;@--------------------------------------
-	ldr z80optbl,=z80CPU1
+	ldr z80ptr,=z80CPU1
 
 	adr r4,cpuMapData+8
 	bl mapZ80Memory
 
-	mov r0,z80optbl
+	mov r0,z80ptr
 	mov r1,#0
 	bl Z80Reset
 
