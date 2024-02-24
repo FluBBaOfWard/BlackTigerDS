@@ -15,7 +15,7 @@
 #include "BlackTigerVideo/Version.h"
 #include "../../arm7/source/YM2203/Version.h"
 
-#define EMUVERSION "V0.2.1 2023-06-27"
+#define EMUVERSION "V0.2.1 2024-02-24"
 
 static void uiDebug(void);
 

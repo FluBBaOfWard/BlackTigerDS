@@ -1,6 +1,7 @@
 #include <nds.h>
 
 #include "BlackTiger.h"
+#include "Cart.h"
 #include "Gfx.h"
 #include "cpu.h"
 #include "BlackTigerVideo/BlackTigerVideo.h"
@@ -31,202 +32,202 @@ int getStateSize() {
 	return size;
 }
 
-static const ArcadeRom blktigerRoms[19] = {
-	// ROM_REGION( 0x50000, "maincpu", 0 ) // 64k for code + banked ROMs images
+static const ArcadeRom blktigerRoms[25] = {
+	{ROM_REGION,   0x50000, (int)&mainCpu}, // 64k for code + banked ROMs images
 	{"bdu-01a.5e", 0x08000, 0xa8f98f22},
 	{"bdu-02a.6e", 0x10000, 0x7bef96e8},
 	{"bdu-03a.8e", 0x10000, 0x4089e157},
 	{"bd-04.9e",   0x10000, 0xed6af6ec},
 	{"bd-05.10e",  0x10000, 0xae59b72e},
-	// ROM_REGION( 0x10000, "audiocpu", 0 )
+	{ROM_REGION,   0x10000, (int)&soundCpu},
 	{"bd-06.1l",   0x8000, 0x2cf54274},
 	// ROM_REGION( 0x10000, "mcu", 0 )
 //	{"bd.6k",      0x1000, 0xac7d14f1},
-	// ROM_REGION( 0x08000, "gfx1", 0 )
+	{ROM_REGION,   0x08000, (int)&vromBase0},
 	{"bd-15.2n",   0x08000, 0x70175d78},
-	// ROM_REGION( 0x40000, "gfx2", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase1},
 	{"bd-12.5b",   0x10000, 0xc4524993},
 	{"bd-11.4b",   0x10000, 0x7932c86f},
 	{"bd-14.9b",   0x10000, 0xdc49593a},
 	{"bd-13.8b",   0x10000, 0x7ed7a122},
-	// ROM_REGION( 0x40000, "gfx3", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase2},
 	{"bd-08.5a",   0x10000, 0xe2f17438},
 	{"bd-07.4a",   0x10000, 0x5fccbd27},
 	{"bd-10.9a",   0x10000, 0xfc33ccc6},
 	{"bd-09.8a",   0x10000, 0xf449de01},
-	// ROM_REGION( 0x0400, "proms", 0 )    // PROMs (function unknown)
+	{ROM_REGION,   0x0400, (int)&promBase}, // PROMs (function unknown)
 	{"bd01.8j",    0x0100, 0x29b459e5},
 	{"bd02.9j",    0x0100, 0x8b741e66},
 	{"bd03.11k",   0x0100, 0x27201c75},
 	{"bd04.11l",   0x0100, 0xe5490b68},
 };
 
-static const ArcadeRom blktigeraRoms[19] = {
-	// ROM_REGION( 0x50000, "maincpu", 0 ) // 64k for code + banked ROMs images
+static const ArcadeRom blktigeraRoms[25] = {
+	{ROM_REGION,   0x50000, (int)&mainCpu}, // 64k for code + banked ROMs images
 	{"bdu-01.5e",  0x08000, 0x47b13922},
 	{"bdu-02.6e",  0x10000, 0x2e0daf1b},
 	{"bdu-03.8e",  0x10000, 0x3b67dfec},
 	{"bd-04.9e",   0x10000, 0xed6af6ec},
 	{"bd-05.10e",  0x10000, 0xae59b72e},
-	// ROM_REGION( 0x10000, "audiocpu", 0 )
+	{ROM_REGION,   0x10000, (int)&soundCpu},
 	{"bd-06.1l",   0x8000, 0x2cf54274},
 	// ROM_REGION( 0x10000, "mcu", 0 )
 //	{"bd.6k",      0x1000, 0xac7d14f1},
-	// ROM_REGION( 0x08000, "gfx1", 0 )
+	{ROM_REGION,   0x08000, (int)&vromBase0},
 	{"bd-15.2n",   0x08000, 0x70175d78},
-	// ROM_REGION( 0x40000, "gfx2", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase1},
 	{"bd-12.5b",   0x10000, 0xc4524993},
 	{"bd-11.4b",   0x10000, 0x7932c86f},
 	{"bd-14.9b",   0x10000, 0xdc49593a},
 	{"bd-13.8b",   0x10000, 0x7ed7a122},
-	// ROM_REGION( 0x40000, "gfx3", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase2},
 	{"bd-08.5a",   0x10000, 0xe2f17438},
 	{"bd-07.4a",   0x10000, 0x5fccbd27},
 	{"bd-10.9a",   0x10000, 0xfc33ccc6},
 	{"bd-09.8a",   0x10000, 0xf449de01},
-	// ROM_REGION( 0x0400, "proms", 0 )    // PROMs (function unknown)
+	{ROM_REGION,   0x0400, (int)&promBase}, // PROMs (function unknown)
 	{"bd01.8j",    0x0100, 0x29b459e5},
 	{"bd02.9j",    0x0100, 0x8b741e66},
 	{"bd03.11k",   0x0100, 0x27201c75},
 	{"bd04.11l",   0x0100, 0xe5490b68},
 };
 
-static const ArcadeRom blktigerb1Roms[19] = {
-	// ROM_REGION( 0x50000, "maincpu", 0 ) // 64k for code + banked ROMs images
+static const ArcadeRom blktigerb1Roms[25] = {
+	{ROM_REGION,   0x50000, (int)&mainCpu}, // 64k for code + banked ROMs images
 	{"btiger1.f6", 0x08000, 0x9d8464e8},
 	{"bdu-02a.6e", 0x10000, 0x7bef96e8},
 	{"btiger3.j6", 0x10000, 0x52c56ed1},
 	{"bd-04.9e",   0x10000, 0xed6af6ec},
 	{"bd-05.10e",  0x10000, 0xae59b72e},
-	// ROM_REGION( 0x10000, "audiocpu", 0 )
+	{ROM_REGION,   0x10000, (int)&soundCpu},
 	{"bd-06.1l",   0x8000, 0x2cf54274},
-	// ROM_REGION( 0x08000, "gfx1", 0 )
+	{ROM_REGION,   0x08000, (int)&vromBase0},
 	{"bd-15.2n",   0x08000, 0x70175d78},
-	// ROM_REGION( 0x40000, "gfx2", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase1},
 	{"bd-12.5b",   0x10000, 0xc4524993},
 	{"bd-11.4b",   0x10000, 0x7932c86f},
 	{"bd-14.9b",   0x10000, 0xdc49593a},
 	{"bd-13.8b",   0x10000, 0x7ed7a122},
-	// ROM_REGION( 0x40000, "gfx3", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase2},
 	{"bd-08.5a",   0x10000, 0xe2f17438},
 	{"bd-07.4a",   0x10000, 0x5fccbd27},
 	{"bd-10.9a",   0x10000, 0xfc33ccc6},
 	{"bd-09.8a",   0x10000, 0xf449de01},
-	// ROM_REGION( 0x0400, "proms", 0 )    // PROMs (function unknown)
+	{ROM_REGION,   0x0400, (int)&promBase}, // PROMs (function unknown)
 	{"bd01.8j",    0x0100, 0x29b459e5},
 	{"bd02.9j",    0x0100, 0x8b741e66},
 	{"bd03.11k",   0x0100, 0x27201c75},
 	{"bd04.11l",   0x0100, 0xe5490b68},
 };
 
-static const ArcadeRom blktigerb2Roms[19] = {
-	// ROM_REGION( 0x50000, "maincpu", 0 ) // 64k for code + banked ROMs images
+static const ArcadeRom blktigerb2Roms[25] = {
+	{ROM_REGION,   0x50000, (int)&mainCpu}, // 64k for code + banked ROMs images
 	{"1.bin",      0x08000, 0x47e2b21e},
 	{"bdu-02a.6e", 0x10000, 0x7bef96e8},
 	{"3.bin",      0x10000, 0x52c56ed1},
 	{"bd-04.9e",   0x10000, 0xed6af6ec},
 	{"bd-05.10e",  0x10000, 0xae59b72e},
-	// ROM_REGION( 0x10000, "audiocpu", 0 )
+	{ROM_REGION,   0x10000, (int)&soundCpu},
 	{"bd-06.1l",   0x8000, 0x2cf54274},
-	// ROM_REGION( 0x08000, "gfx1", 0 )
+	{ROM_REGION,   0x08000, (int)&vromBase0},
 	{"bd-15.2n",   0x08000, 0x70175d78},
-	// ROM_REGION( 0x40000, "gfx2", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase1},
 	{"bd-12.5b",   0x10000, 0xc4524993},
 	{"bd-11.4b",   0x10000, 0x7932c86f},
 	{"bd-14.9b",   0x10000, 0xdc49593a},
 	{"bd-13.8b",   0x10000, 0x7ed7a122},
-	// ROM_REGION( 0x40000, "gfx3", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase2},
 	{"bd-08.5a",   0x10000, 0xe2f17438},
 	{"bd-07.4a",   0x10000, 0x5fccbd27},
 	{"bd-10.9a",   0x10000, 0xfc33ccc6},
 	{"bd-09.8a",   0x10000, 0xf449de01},
-	// ROM_REGION( 0x0400, "proms", 0 )    // PROMs (function unknown)
+	{ROM_REGION,   0x0400, (int)&promBase}, // PROMs (function unknown)
 	{"bd01.8j",    0x0100, 0x29b459e5},
 	{"bd02.9j",    0x0100, 0x8b741e66},
 	{"bd03.11k",   0x0100, 0x27201c75},
 	{"bd04.11l",   0x0100, 0xe5490b68},
 };
 
-static const ArcadeRom blkdrgonRoms[19] = {
-	// ROM_REGION( 0x50000, "maincpu", 0 ) // 64k for code + banked ROMs images
+static const ArcadeRom blkdrgonRoms[25] = {
+	{ROM_REGION,   0x50000, (int)&mainCpu}, // 64k for code + banked ROMs images
 	{"bd_01.5e",   0x08000, 0x27ccdfbc},
 	{"bd_02.6e",   0x10000, 0x7d39c26f},
 	{"bd_03.8e",   0x10000, 0xd1bf3757},
 	{"bd_04.9e",   0x10000, 0x4d1d6680},
 	{"bd_05.10e",  0x10000, 0xc8d0c45e},
-	// ROM_REGION( 0x10000, "audiocpu", 0 )
+	{ROM_REGION,   0x10000, (int)&soundCpu},
 	{"bd_06.1l",   0x8000, 0x2cf54274},
 	// ROM_REGION( 0x10000, "mcu", 0 )
 //	{"bd.6k",      0x1000, 0xac7d14f1},
-	// ROM_REGION( 0x08000, "gfx1", 0 )
+	{ROM_REGION,   0x08000, (int)&vromBase0},
 	{"bd_15.2n",   0x08000, 0x3821ab29},
-	// ROM_REGION( 0x40000, "gfx2", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase1},
 	{"bd_12.5b",   0x10000, 0x22d0a4b0},
 	{"bd_11.4b",   0x10000, 0xc8b5fc52},
 	{"bd_14.9b",   0x10000, 0x9498c378},
 	{"bd_13.8b",   0x10000, 0x5b0df8ce},
-	// ROM_REGION( 0x40000, "gfx3", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase2},
 	{"bd_08.5a",   0x10000, 0xe2f17438},
 	{"bd_07.4a",   0x10000, 0x5fccbd27},
 	{"bd_10.9a",   0x10000, 0xfc33ccc6},
 	{"bd_09.8a",   0x10000, 0xf449de01},
-	// ROM_REGION( 0x0400, "proms", 0 )    // PROMs (function unknown)
+	{ROM_REGION,   0x0400, (int)&promBase}, // PROMs (function unknown)
 	{"bd01.8j",    0x0100, 0x29b459e5},
 	{"bd02.9j",    0x0100, 0x8b741e66},
 	{"bd03.11k",   0x0100, 0x27201c75},
 	{"bd04.11l",   0x0100, 0xe5490b68},
 };
 
-static const ArcadeRom blkdrgonbRoms[19] = {
-	// ROM_REGION( 0x50000, "maincpu", 0 ) // 64k for code + banked ROMs images
+static const ArcadeRom blkdrgonbRoms[25] = {
+	{ROM_REGION,   0x50000, (int)&mainCpu}, // 64k for code + banked ROMs images
 	{"a1",         0x08000, 0x7caf2ba0},
 	{"blkdrgon.6e",0x10000, 0x7d39c26f},
 	{"a3",         0x10000, 0xf4cd0f39},
 	{"blkdrgon.9e",0x10000, 0x4d1d6680},
 	{"blkdrgon.10e",0x10000, 0xc8d0c45e},
-	// ROM_REGION( 0x10000, "audiocpu", 0 )
+	{ROM_REGION,   0x10000, (int)&soundCpu},
 	{"bd-06.1l",   0x8000, 0x2cf54274},
-	// ROM_REGION( 0x08000, "gfx1", 0 )
+	{ROM_REGION,   0x08000, (int)&vromBase0},
 	{"b5",         0x08000, 0x852ad2b7},
-	// ROM_REGION( 0x40000, "gfx2", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase1},
 	{"blkdrgon.5b",0x10000, 0x22d0a4b0},
 	{"b1",         0x10000, 0x053ab15c},
 	{"blkdrgon.9b",0x10000, 0x9498c378},
 	{"b3",         0x10000, 0x9dc6e943},
-	// ROM_REGION( 0x40000, "gfx3", 0 )
+	{ROM_REGION,   0x40000, (int)&vromBase2},
 	{"bd-08.5a",   0x10000, 0xe2f17438},
 	{"bd-07.4a",   0x10000, 0x5fccbd27},
 	{"bd-10.9a",   0x10000, 0xfc33ccc6},
 	{"bd-09.8a",   0x10000, 0xf449de01},
-	// ROM_REGION( 0x0400, "proms", 0 )    // PROMs (function unknown)
+	{ROM_REGION,   0x0400, (int)&promBase}, // PROMs (function unknown)
 	{"bd01.8j",    0x0100, 0x29b459e5},
 	{"bd02.9j",    0x0100, 0x8b741e66},
 	{"bd03.11k",   0x0100, 0x27201c75},
 	{"bd04.11l",   0x0100, 0xe5490b68},
 };
 
-static const ArcadeRom blktigerb3Roms[19] = {
-	// ROM_REGION( 0x50000, "maincpu", 0 ) // 64k for code + banked ROMs images // == same as blktigerb2 maincpu
+static const ArcadeRom blktigerb3Roms[25] = {
+	{ROM_REGION,   0x50000, (int)&mainCpu}, // 64k for code + banked ROMs images
 	{"1.5e",       0x08000, 0x47e2b21e},
 	{"2.6e",       0x10000, 0x7bef96e8},
 	{"3.8e",       0x10000, 0x52c56ed1},
 	{"4.9e",       0x10000, 0xed6af6ec},
 	{"5.10e",      0x10000, 0xae59b72e},
-	// ROM_REGION( 0x10000, "audiocpu", 0 ) // == same as other sets but with an address swap
+	{ROM_REGION,   0x10000, (int)&soundCpu}, // == same as other sets but with an address swap
 	{"6.1l",       0x8000, 0x6dfab115},
-	// ROM_REGION( 0x08000, "gfx1", 0 )    // == same as blkdrgon
+	{ROM_REGION,   0x08000, (int)&vromBase0}, // == same as blkdrgon
 	{"15.2n",      0x08000, 0x3821ab29},
-	// ROM_REGION( 0x40000, "gfx2", 0 )    // == same as other sets
+	{ROM_REGION,   0x40000, (int)&vromBase1}, // == same as other sets
 	{"12.5b",      0x10000, 0xc4524993},
 	{"11.4b",      0x10000, 0x7932c86f},
 	{"14.9b",      0x10000, 0xdc49593a},
 	{"13.8b",      0x10000, 0x7ed7a122},
-	// ROM_REGION( 0x40000, "gfx3", 0 )    // == same as other sets
+	{ROM_REGION,   0x40000, (int)&vromBase2}, // == same as other sets
 	{"8.5a",       0x10000, 0xe2f17438},
 	{"7.4a",       0x10000, 0x5fccbd27},
 	{"10.9a",      0x10000, 0xfc33ccc6},
 	{"9.8a",       0x10000, 0xf449de01},
-	// ROM_REGION( 0x0400, "proms", 0 )    // PROMs (function unknown), missing in this dump
+	{ROM_REGION,   0x0400, (int)&promBase}, // PROMs (function unknown)
 	{"bd01.8j",    0x0100, 0x29b459e5},
 	{"bd02.9j",    0x0100, 0x8b741e66},
 	{"bd03.11k",   0x0100, 0x27201c75},

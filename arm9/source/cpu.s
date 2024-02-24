@@ -167,7 +167,7 @@ cpuReset:		;@ Called by loadCart/resetGame
 	bl Z80Reset
 
 ;@---Speed - 3.579MHz / 60Hz	;Black Tiger / Black Dragon, audio
-//	ldr r0,=CYCLE_PSL			;@ 226
+//	ldr r0,=CYCLE_PSL1			;@ 226
 //	str r0,cyclesPerScanline
 ;@--------------------------------------
 	ldr z80ptr,=z80CPU1
@@ -210,7 +210,7 @@ z80DataLoop:
 	.section .dtcm, "ax", %progbits				;@ For the NDS
 #endif
 ;@----------------------------------------------------------------------------
-	.space 105*4
+	.space 102*4
 z80CPU1:
 	.space z80Size
 ;@----------------------------------------------------------------------------

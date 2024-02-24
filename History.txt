@@ -2,7 +2,7 @@ BlackTigerDS revision history
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-V0.2.1 - 2023-06-27 (FluBBa)
+V0.2.1 - 2024-02-24 (FluBBa)
 	Added new debug menu.
 	Better menu traversing.
 
