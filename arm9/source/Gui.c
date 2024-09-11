@@ -15,26 +15,47 @@
 #include "BlackTigerVideo/Version.h"
 #include "../../arm7/source/YM2203/Version.h"
 
-#define EMUVERSION "V0.2.1 2024-02-24"
+#define EMUVERSION "V0.2.1 2024-09-11"
 
 static void uiDebug(void);
+static void ui11(void);
 
-const fptr fnMain[] = {nullUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI, subUI};
+const MItem fnList0[] = {{"",uiDummy}};
+const MItem fnList1[] = {
+	{"Load Game",ui9},
+	{"Load State",loadState},
+	{"Save State",saveState},
+	{"Save Settings",saveSettings},
+	{"Reset Game",resetGame},
+	{"Quit Emulator",ui11}};
+const MItem fnList2[] = {
+	{"Controller",ui4},
+	{"Display",ui5},
+	{"Settings",ui6},
+	{"Debug",ui7},
+	{"DipSwitches",ui8}};
+const MItem fnList4[] = {{"",autoBSet}, {"",autoASet}, {"",controllerSet}, {"",swapABSet}};
+const MItem fnList5[] = {{"",scalingSet}, {"",flickSet}, {"",gammaSet}};
+const MItem fnList6[] = {{"",speedSet}, {"",autoStateSet}, {"",autoSettingsSet}, {"",autoPauseGameSet}, {"",powerSaveSet}, {"",screenSwapSet}, {"",sleepSet}};
+const MItem fnList7[] = {{"",debugTextSet}, {"",fgrLayerSet}, {"",bgrLayerSet}, {"",sprLayerSet}, {"",stepFrame}};
+const MItem fnList8[] = {{"",coinASet}, {"",coinBSet}, {"",difficultSet}, {"",continueSet}, {"",cabinetSet}, {"",livesSet}, {"",demoSet}, {"",flipSet}, {"",serviceSet}};
+const MItem fnList9[GAME_COUNT] = {{"",quickSelectGame}, {"",quickSelectGame}, {"",quickSelectGame}, {"",quickSelectGame}, {"",quickSelectGame}, {"",quickSelectGame}, {"",quickSelectGame}};
+const MItem fnList11[] = {{"Yes ",exitEmulator}, {"No ",backOutOfMenu}};
 
-const fptr fnList0[] = {uiDummy};
-const fptr fnList1[] = {ui9, loadState, saveState, saveSettings, resetGame};
-const fptr fnList2[] = {ui4, ui5, ui6, ui7, ui8};
-const fptr fnList3[] = {uiDummy};
-const fptr fnList4[] = {autoBSet, autoASet, controllerSet, swapABSet};
-const fptr fnList5[] = {scalingSet, flickSet, gammaSet};
-const fptr fnList6[] = {speedSet, autoStateSet, autoSettingsSet, autoPauseGameSet, powerSaveSet, screenSwapSet, sleepSet};
-const fptr fnList7[] = {debugTextSet, fgrLayerSet, bgrLayerSet, sprLayerSet, stepFrame};
-const fptr fnList8[] = {coinASet, coinBSet, difficultSet, continueSet, cabinetSet, livesSet, demoSet, flipSet, serviceSet};
-const fptr fnList9[] = {quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame, quickSelectGame};
-const fptr fnList10[] = {uiDummy};
-const fptr *const fnListX[] = {fnList0, fnList1, fnList2, fnList3, fnList4, fnList5, fnList6, fnList7, fnList8, fnList9, fnList10};
-const u8 menuXItems[] = {ARRSIZE(fnList0), ARRSIZE(fnList1), ARRSIZE(fnList2), ARRSIZE(fnList3), ARRSIZE(fnList4), ARRSIZE(fnList5), ARRSIZE(fnList6), ARRSIZE(fnList7), ARRSIZE(fnList8), ARRSIZE(fnList9), ARRSIZE(fnList10)};
-const fptr drawUIX[] = {uiNullNormal, uiFile, uiOptions, uiAbout, uiController, uiDisplay, uiSettings, uiDebug, uiDipswitches, uiLoadGame, uiDummy};
+const Menu menu0 = MENU_M("", uiNullNormal, fnList0);
+Menu menu1 = MENU_M("", uiAuto, fnList1);
+const Menu menu2 = MENU_M("", uiAuto, fnList2);
+const Menu menu3 = MENU_M("", uiAbout, fnList0);
+const Menu menu4 = MENU_M("Controller Settings", uiController, fnList4);
+const Menu menu5 = MENU_M("Display Settings", uiDisplay, fnList5);
+const Menu menu6 = MENU_M("Settings", uiSettings, fnList6);
+const Menu menu7 = MENU_M("Debug", uiDebug, fnList7);
+const Menu menu8 = MENU_M("Dipswitch Settings", uiDipswitches, fnList8);
+const Menu menu9 = MENU_M("Load Game", uiLoadGame, fnList9);
+const Menu menu10 = MENU_M("", uiDummy, fnList0);
+const Menu menu11 = MENU_M("Quit Emulator?", uiAuto, fnList11);
+
+const Menu *const menus[] = {&menu0, &menu1, &menu2, &menu3, &menu4, &menu5, &menu6, &menu7, &menu8, &menu9, &menu10, &menu11 };
 
 u8 gGammaValue = 0;
 
@@ -60,6 +81,7 @@ const char *const singleTxt[] = {"Single", "Dual"};
 void setupGUI() {
 	emuSettings = AUTOPAUSE_EMULATION;
 	keysSetRepeat(25, 4);	// Delay, repeat.
+	menu1.itemCount = ARRSIZE(fnList1) - (enableExit?0:1);
 	openMenu();
 }
 
@@ -91,27 +113,6 @@ void uiNullNormal() {
 	uiNullDefault();
 }
 
-void uiFile() {
-	setupMenu();
-	drawMenuItem("Load Game");
-	drawMenuItem("Load State");
-	drawMenuItem("Save State");
-	drawMenuItem("Save Settings");
-	drawMenuItem("Reset Game");
-	if (enableExit) {
-		drawMenuItem("Quit Emulator");
-	}
-}
-
-void uiOptions() {
-	setupMenu();
-	drawMenuItem("Controller");
-	drawMenuItem("Display");
-	drawMenuItem("Settings");
-	drawMenuItem("Debug");
-	drawMenuItem("DipSwitches");
-}
-
 void uiAbout() {
 	cls(1);
 	drawTabs();
@@ -136,7 +137,7 @@ void uiAbout() {
 }
 
 void uiController() {
-	setupSubMenu("Controller Settings");
+	setupSubMenuText();
 	drawSubItem("B Autofire:", autoTxt[autoB]);
 	drawSubItem("A Autofire:", autoTxt[autoA]);
 	drawSubItem("Controller:", ctrlTxt[(joyCfg>>29)&1]);
@@ -144,14 +145,14 @@ void uiController() {
 }
 
 void uiDisplay() {
-	setupSubMenu("Display Settings");
+	setupSubMenuText();
 	drawSubItem("Display:", dispTxt[gScaling]);
 	drawSubItem("Scaling:", flickTxt[gFlicker]);
 	drawSubItem("Gamma:", brighTxt[gGammaValue]);
 }
 
 void uiSettings() {
-	setupSubMenu("Settings");
+	setupSubMenuText();
 	drawSubItem("Speed:", speedTxt[(emuSettings>>6)&3]);
 	drawSubItem("Autoload State:", autoTxt[(emuSettings>>2)&1]);
 	drawSubItem("Autosave Settings:", autoTxt[(emuSettings>>9)&1]);
@@ -162,7 +163,7 @@ void uiSettings() {
 }
 
 void uiDebug() {
-	setupSubMenu("Debug");
+	setupSubMenuText();
 	drawSubItem("Debug Output:", autoTxt[gDebugSet&1]);
 	drawSubItem("Disable Foreground:", autoTxt[gGfxMask&1]);
 	drawSubItem("Disable Background:", autoTxt[(gGfxMask>>1)&1]);
@@ -171,7 +172,7 @@ void uiDebug() {
 }
 
 void uiDipswitches() {
-	setupSubMenu("Dipswitch Settings");
+	setupSubMenuText();
 	drawSubItem("Coin A:", coinTxt[gDipSwitch0 & 0x7]);
 	drawSubItem("Coin B:", coinTxt[(gDipSwitch0>>3) & 0x7]);
 	drawSubItem("Difficulty:", diffTxt[(gDipSwitch1>>2)&7]);
@@ -184,11 +185,15 @@ void uiDipswitches() {
 }
 
 void uiLoadGame() {
-	setupSubMenu("Load Game");
+	setupSubMenuText();
 	int i;
 	for (i=0; i<ARRSIZE(blktigerGames); i++) {
 		drawSubItem(blktigerGames[i].fullName, NULL);
 	}
+}
+
+void ui11() {
+	enterMenu(11);
 }
 
 void nullUINormal(int key) {

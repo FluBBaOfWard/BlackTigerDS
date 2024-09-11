@@ -17,10 +17,8 @@ void nullUIDebug(int key);
 void resetGame(void);
 
 void uiNullNormal(void);
-void uiFile(void);
 void uiSettings(void);
 void uiAbout(void);
-void uiOptions(void);
 void uiController(void);
 void uiDisplay(void);
 void uiDipswitches(void);

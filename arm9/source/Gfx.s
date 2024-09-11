@@ -73,7 +73,7 @@ gfxReset:					;@ Called with CPU reset
 	mov r0,#0x0000
 	strh r0,[r1,#REG_WINOUT]
 
-	ldr r0,=Z80SetIRQPin
+	ldr r0,=Z80SetIRQPinCurrentCpu
 	ldr r1,=blkTgrRAM_0
 	bl blkTgrReset0
 
