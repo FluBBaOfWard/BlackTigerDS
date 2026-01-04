@@ -196,7 +196,7 @@ z80DataLoop:
 	ldmfd sp!,{pc}
 ;@----------------------------------------------------------------------------
 #ifdef NDS
-	.section .dtcm, "ax", %progbits				;@ For the NDS
+	.section .sbss				;@ This is DTCM on NDS with devkitARM
 #endif
 ;@----------------------------------------------------------------------------
 	.space 102*4

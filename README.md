@@ -6,10 +6,12 @@ You should still be able to enjoy the game though. =)
 
 ## How to use
 
-1. Create a "ACDS" directory either in the root of your card or in the data
- directory (eg h:\data\acds). This is where settings and save files end up.
+1. Create a folder named "acds" in either the root of your flash card or in the
+ data folder (eg h:\data\acds). This is where settings and save files end up.
 2. Now put blktiger.zip, blkdrgon.zip and/or blkdrgonb.zip into a folder where
- you have (arcade) roms.
+ you have (arcade) roms, max 768 files per folder, filenames must not be longer
+ than 127 chars. You can use zip-files (as long as they use the deflate
+ compression).
 3. Depending on your flashcart you might have to DLDI patch the emulator.
 
 When the emulator starts, you can either press L+R or tap on the screen to open
@@ -81,6 +83,8 @@ Paul Leaman, for the MAME driver.
 
 Fredrik Ahlström
 
-Twitter @TheRealFluBBa
+<https://bsky.app/profile/therealflubba.bsky.social>
 
-http://www.github.com/FluBBaOfWard
+<https://www.github.com/FluBBaOfWard>
+
+X/Twitter @TheRealFluBBa

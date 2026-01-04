@@ -5,6 +5,14 @@
 #include "ARMZ80/ARMZ80.i"
 #include "BlackTigerVideo/BlackTigerVideo.i"
 
+	.global gFlicker
+	.global gTwitch
+	.global gScaling
+	.global gGfxMask
+	.global yStart
+	.global gfxState
+//	.global oamBufferReady
+
 	.global gfxInit
 	.global gfxReset
 	.global paletteInit
@@ -12,14 +20,7 @@
 	.global refreshGfx
 	.global setPaletteCount
 	.global convertGfx
-	.global gfxState
-//	.global oamBufferReady
-	.global gFlicker
-	.global gTwitch
-	.global gScaling
-	.global gGfxMask
 	.global vblIrqHandler
-	.global yStart
 
 	.global Z80Out
 	.global blkTgrVideo_0
@@ -153,61 +154,62 @@ setPaletteCount:
 vblIrqHandler:
 	.type vblIrqHandler STT_FUNC
 ;@----------------------------------------------------------------------------
-	stmfd sp!,{r4-r8,lr}
+	stmfd sp!,{r4-r6,lr}
 	bl calculateFPS
 
 	ldrb r0,gScaling
 	cmp r0,#UNSCALED
+	moveq r5,#0
+	ldrne r5,=0x80000000 + ((GAME_HEIGHT-SCREEN_HEIGHT)*0x10000) / (SCREEN_HEIGHT-1)		;@ NDS 0x2B10 (was 0x2AAB)
 	ldrbeq r4,yStart
 	movne r4,#0
 	add r4,r4,#0x10
-	moveq r6,#0
-	ldrne r6,=0x80000000 + ((GAME_HEIGHT-SCREEN_HEIGHT)*0x10000) / (SCREEN_HEIGHT-1)		;@ NDS 0x2B10 (was 0x2AAB)
-	mov r4,r4,lsl#16
-	orr r4,r4,#(GAME_WIDTH-SCREEN_WIDTH)/2
-	ldr r7,scrollTemp
+	mov r2,r4,lsl#16
+	orr r2,r2,#(GAME_WIDTH-SCREEN_WIDTH)/2
 
 	ldr r0,gFlicker
 	eors r0,r0,r0,lsl#31
 	str r0,gFlicker
-	addpl r6,r6,r6,lsl#16
+	addpl r5,r5,r5,lsl#16
 
-	ldr r2,=SCROLLBUFF
-	mov r3,r2
+	ldr r1,=SCROLLBUFF
+	mov r0,r1
 
-	mov r1,#SCREEN_HEIGHT
+	ldr r6,scrollTemp
+	mov r12,#SCREEN_HEIGHT
 scrolLoop2:
-	add r5,r4,r7
-	stmia r3!,{r4,r5}
-	adds r6,r6,r6,lsl#16
-	addcs r4,r4,#0x10000
-	subs r1,r1,#1
+	add r3,r6,r2
+	stmia r0!,{r2,r3}
+	adds r5,r5,r5,lsl#16
+	addcs r2,r2,#0x10000
+	subs r12,r12,#1
 	bne scrolLoop2
 
 
-	mov r6,#REG_BASE
-	strh r6,[r6,#REG_DMA0CNT_H]	;@ DMA0 stop
+	mov r5,#REG_BASE
+	strh r5,[r5,#REG_DMA0CNT_H]	;@ DMA0 stop
 
-	add r1,r6,#REG_DMA0SAD		;@ Setup DMA buffer for scrolling:
-	ldmia r2!,{r4-r5}			;@ Read
-	add r3,r6,#REG_BG0HOFS		;@ DMA0 always goes here
-	stmia r3,{r4-r5}			;@ Set 1st value manually, HBL is AFTER 1st line
-	ldr r4,=0x96600002			;@ noIRQ hblank 32bit repeat incsrc inc_reloaddst, 2 word
-	stmia r1,{r2-r4}			;@ DMA0 go
+	add r0,r5,#REG_DMA0SAD		;@ Setup DMA buffer for scrolling:
+//	mov r1,r1					;@ DMA0 src, scrolling:
+	ldmia r1!,{r3-r4}			;@ Read
+	add r2,r5,#REG_BG0HOFS		;@ DMA0 always goes here
+	stmia r2,{r3-r4}			;@ Set 1st value manually, HBL is AFTER 1st line
+	ldr r3,=0x96600002			;@ noIRQ hblank 32bit repeat incsrc inc_reloaddst, 2 word
+	stmia r0,{r1-r3}			;@ DMA0 go
 
-	add r1,r6,#REG_DMA3SAD
+	add r0,r5,#REG_DMA3SAD
 
-	ldr r2,dmaOamBuffer			;@ DMA3 src, OAM transfer:
-	mov r3,#OAM					;@ DMA3 dst
-	mov r4,#0x84000000			;@ noIRQ 32bit incsrc incdst
-	orr r4,r4,#128*2			;@ 128 sprites * 2 longwords
-	stmia r1,{r2-r4}			;@ DMA3 go
+	ldr r1,dmaOamBuffer			;@ DMA3 src, OAM transfer:
+	mov r2,#OAM					;@ DMA3 dst
+	mov r3,#0x84000000			;@ noIRQ 32bit incsrc incdst
+	orr r3,r3,#128*2			;@ 128 sprites * 2 longwords
+	stmia r0,{r1-r3}			;@ DMA3 go
 
-	ldr r2,=EMUPALBUFF			;@ DMA3 src, Palette transfer:
-	mov r3,#BG_PALETTE			;@ DMA3 dst
-	mov r4,#0x84000000			;@ noIRQ 32bit incsrc incdst
-	orr r4,r4,#0x100			;@ 256 words (1024 bytes)
-	stmia r1,{r2-r4}			;@ DMA3 go
+	ldr r1,=EMUPALBUFF			;@ DMA3 src, Palette transfer:
+	mov r2,#BG_PALETTE			;@ DMA3 dst
+	mov r3,#0x84000000			;@ noIRQ 32bit incsrc incdst
+	orr r3,r3,#0x100			;@ 256 words (1024 bytes)
+	stmia r0,{r1-r3}			;@ DMA3 go
 
 	ldr btptr,=blkTgrVideo_0
 	ldrb r2,[btptr,#btVideoEnable]
@@ -222,10 +224,10 @@ scrolLoop2:
 	bicne r0,r0,#0x02
 	tst r2,#0x04				;@ Sprites on?
 	bicne r0,r0,#0x10
-	strh r0,[r6,#REG_WININ]
+	strh r0,[r5,#REG_WININ]
 
 	blx scanKeys
-	ldmfd sp!,{r4-r8,pc}
+	ldmfd sp!,{r4-r6,pc}
 
 
 ;@----------------------------------------------------------------------------
@@ -394,7 +396,12 @@ scrollTemp:
 	.byte 0
 	.byte 0,0
 
+#ifdef GBA
+	.section .sbss				;@ This is EWRAM on GBA with devkitARM
+#else
 	.section .bss
+#endif
+	.align 2
 OAM_BUFFER1:
 	.space 0x400
 OAM_BUFFER2:
