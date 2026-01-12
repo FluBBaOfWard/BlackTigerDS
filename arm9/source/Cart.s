@@ -90,7 +90,7 @@ machineInit: 	;@ Called from C
 	ldmfd sp!,{lr}
 	bx lr
 
-	.section .ewram,"ax"
+	.section .ewram, "ax", %progbits
 	.align 2
 ;@----------------------------------------------------------------------------
 loadCart: 		;@ Called from C:  r0=rom number, r1=emuflags
