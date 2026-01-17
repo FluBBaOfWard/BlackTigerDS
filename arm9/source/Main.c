@@ -52,13 +52,15 @@ int main(int argc, char **argv) {
 		enableExit = true;
 	}
 	setupGraphics();
-	machineInit();
 
 	irqSet(IRQ_VBLANK, myVblank);
 	setupGUI();
 	getInput();
-	if (initFileHelper()) {
-		loadSettings();
+	initSettings();
+	bool fsOk = initFileHelper();
+	loadSettings();
+	machineInit();
+	if (fsOk) {
 		autoLoadGame();
 	}
 	else {

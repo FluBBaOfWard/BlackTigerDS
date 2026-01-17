@@ -20,69 +20,94 @@ ConfigData cfg;
 static int selectedGame = 0;
 
 //---------------------------------------------------------------------------------
+void applyConfigData(void) {
+	emuSettings  = cfg.emuSettings & ~EMUSPEED_MASK; // Clear speed setting.
+	gScaling     = cfg.scaling & SCALED;
+	gFlicker     = cfg.flicker & 1;
+	gGammaValue  = cfg.gammaValue;
+	sleepTime    = cfg.sleepTime;
+	joyCfg       = (joyCfg & ~0x400) | ((cfg.controller & 1) << 10);
+	strlcpy(currentDir, cfg.currentPath, sizeof(currentDir));
+	coinCounter0 = cfg.coinCounter0;
+	coinCounter1 = cfg.coinCounter1;
+
+	gDipSwitch0  = cfg.dipSwitchBT0;
+	gDipSwitch1  = cfg.dipSwitchBT1;
+	gDipSwitch2  = cfg.dipSwitchBT2;
+	gDipSwitch3  = cfg.dipSwitchBT3;
+}
+
+void updateConfigData(void) {
+	strcpy(cfg.magic, "cfg");
+	cfg.emuSettings = emuSettings & ~EMUSPEED_MASK; // Clear speed setting.
+	cfg.scaling     = gScaling & SCALED;
+	cfg.flicker     = gFlicker & 1;
+	cfg.gammaValue  = gGammaValue;
+	cfg.sleepTime   = sleepTime;
+	cfg.controller  = (joyCfg >> 10) & 1;
+	strlcpy(cfg.currentPath, currentDir, sizeof(currentDir));
+	cfg.coinCounter0 = coinCounter0;
+	cfg.coinCounter1 = coinCounter1;
+
+	cfg.dipSwitchBT0 = gDipSwitch0;
+	cfg.dipSwitchBT1 = gDipSwitch1;
+	cfg.dipSwitchBT2 = gDipSwitch2;
+	cfg.dipSwitchBT3 = gDipSwitch3;
+}
+
+void initSettings() {
+	memset(&cfg, 0, sizeof(ConfigData));
+	cfg.emuSettings  = AUTOPAUSE_EMULATION | AUTOLOAD_NVRAM | AUTOSLEEP_OFF;
+	cfg.scaling      = SCALED;
+	cfg.flicker      = 1;
+	cfg.sleepTime    = 60*60*5;
+	cfg.dipSwitchBT1 = 0x80;		// Lives, cabinet & demo sound.
+
+	applyConfigData();
+}
+
 int loadSettings() {
 	FILE *file;
-
-	if (findFolder(folderName)) {
-		return 1;
-	}
-	if ((file = fopen(settingName, "r"))) {
-		fread(&cfg, 1, sizeof(ConfigData), file);
+	if (!findFolder(folderName)
+		&& (file = fopen(settingName, "r"))) {
+		int len = fread(&cfg, 1, sizeof(ConfigData), file);
 		fclose(file);
-		if (!strstr(cfg.magic,"cfg")) {
+		if (strstr(cfg.magic, "cfg") && len == sizeof(ConfigData)) {
+			applyConfigData();
+			infoOutput("Settings loaded.");
+			return 0;
+		}
+		else {
+			updateConfigData();
 			infoOutput("Error in settings file.");
-			return 1;
 		}
 	}
 	else {
 		infoOutput("Couldn't open file:");
 		infoOutput(settingName);
-		return 1;
 	}
-
-	gScaling     = cfg.scaling&1;
-	gFlicker     = cfg.flicker&1;
-	gGammaValue  = cfg.gammaValue;
-	emuSettings  = cfg.emuSettings &~ 0xC0;			// Clear speed setting.
-	sleepTime    = cfg.sleepTime;
-	joyCfg       = (joyCfg&~0x400)|((cfg.controller&1)<<10);
-	strlcpy(currentDir, cfg.currentPath, sizeof(currentDir));
-	gDipSwitch0  = cfg.dipSwitchBT0;
-	gDipSwitch1  = cfg.dipSwitchBT1;
-	gDipSwitch2  = cfg.dipSwitchBT2;
-	gDipSwitch3  = cfg.dipSwitchBT3;
-
-	infoOutput("Settings loaded.");
-	return 0;
+	return 1;
 }
-void saveSettings() {
+
+int saveSettings() {
+	updateConfigData();
+
 	FILE *file;
-
-	strcpy(cfg.magic,"cfg");
-	cfg.scaling     = gScaling&1;
-	cfg.flicker     = gFlicker&1;
-	cfg.gammaValue  = gGammaValue;
-	cfg.emuSettings = emuSettings &~ 0xC0;			// Clear speed setting.
-	cfg.sleepTime   = sleepTime;
-	cfg.controller  = (joyCfg>>10)&1;
-	strlcpy(cfg.currentPath, currentDir, sizeof(currentDir));
-	cfg.dipSwitchBT0 = gDipSwitch0;
-	cfg.dipSwitchBT1 = gDipSwitch1;
-	cfg.dipSwitchBT2 = gDipSwitch2;
-	cfg.dipSwitchBT3 = gDipSwitch3;
-
-	if (findFolder(folderName)) {
-		return;
-	}
-	if ((file = fopen(settingName, "w"))) {
-		fwrite(&cfg, 1, sizeof(ConfigData), file);
+	if (!findFolder(folderName)
+		&& (file = fopen(settingName, "w"))) {
+		int len = fwrite(&cfg, 1, sizeof(ConfigData), file);
 		fclose(file);
-		infoOutput("Settings saved.");
+		if (len == sizeof(ConfigData)) {
+			infoOutput("Settings saved.");
+			return 0;
+		}
+		infoOutput("Couldn't save settings.");
 	}
 	else {
 		infoOutput("Couldn't open file:");
 		infoOutput(settingName);
 	}
+	return 1;
 }
 
 int loadNVRAM() {
