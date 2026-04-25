@@ -70,7 +70,6 @@ int main(int argc, char **argv) {
 
 	while (1) {
 		waitVBlank();
-		checkTimeOut();
 		guiRunLoop();
 		if (!pauseEmulation) {
 			run();
@@ -83,6 +82,7 @@ int main(int argc, char **argv) {
 			sampleDelta -= 50;
 		}
 		fifoSendValue32(FIFO_USER_08, (FIFO_SET_FREQ<<20) + sampleDelta);
+//		checkTimeOut();
 	}
 	return 0;
 }

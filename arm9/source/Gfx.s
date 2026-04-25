@@ -23,6 +23,7 @@
 	.global vblIrqHandler
 
 	.global Z80Out
+	.global Z80OutBC
 	.global blkTgrVideo_0
 	.global blkTgrRAM_0
 	.global blkTgrVideoCD_0R
@@ -39,12 +40,16 @@ gfxInit:					;@ Called from machineInit
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{lr}
 
-	ldr r0,=OAM_BUFFER1			;@ No stray sprites please
+	ldr r0,scaleParms			;@ No stray sprites please
 	mov r1,#0x200+SCREEN_HEIGHT
-	mov r2,#0x100
+	mov r2,#0x200
 	bl memset_
 	adr r0,scaleParms
 	bl setupSpriteScaling
+	mov r0,#OAM
+	ldr r1,scaleParms
+	mov r2,#0x400
+	bl memcpy
 
 	ldr r0,=gGammaValue
 	ldrb r0,[r0]
@@ -239,6 +244,7 @@ gScaling:		.byte SCALED
 gGfxMask:		.byte 0
 yStart:			.byte 0
 				.byte 0
+scrollTemp:		.long 0
 ;@----------------------------------------------------------------------------
 refreshGfx:					;@ Called from C.
 	.type refreshGfx STT_FUNC
@@ -353,7 +359,7 @@ palMapRow:
 ;@----------------------------------------------------------------------------
 blkTgrReset0:			;@ r0=IRQ(frameIrqFunc), r1= RAM
 ;@----------------------------------------------------------------------------
-	adr btptr,blkTgrVideo_0
+	ldr btptr,=blkTgrVideo_0
 	b blkTgrReset
 ;@----------------------------------------------------------------------------
 blkTgrVideoCD_0R:			;@ RAM read, (0xC000-0xDFFF)
@@ -375,6 +381,10 @@ blkTgrVideoCD_0W:			;@ RAM write  (0xC000-0xDFFF)
 	strb r0,[r2,r1,lsr#30]
 	bx lr
 ;@----------------------------------------------------------------------------
+Z80OutBC:
+;@----------------------------------------------------------------------------
+	mov addy,z80bc,lsr#16
+;@----------------------------------------------------------------------------
 Z80Out:
 ;@----------------------------------------------------------------------------
 	and r1,addy,#0xFF
@@ -385,23 +395,22 @@ blkTgrVideo_0:
 	.space blkTgrSize
 ;@----------------------------------------------------------------------------
 
-gfxState:
-adjustBlend:
-	.long 0
-windowTop:
-	.long 0,0,0,0				;@ L/R scrolling in unscaled mode
-scrollTemp:
-	.long 0
-	.byte 0
-	.byte 0
-	.byte 0,0
-
 #ifdef GBA
 	.section .sbss				;@ This is EWRAM on GBA with devkitARM
 #else
 	.section .bss
 #endif
 	.align 2
+gfxState:
+adjustBlend:
+	.long 0
+windowTop:
+	.long 0,0,0,0				;@ L/R scrolling in unscaled mode
+	.long 0
+	.byte 0
+	.byte 0
+	.byte 0,0
+
 OAM_BUFFER1:
 	.space 0x400
 OAM_BUFFER2:

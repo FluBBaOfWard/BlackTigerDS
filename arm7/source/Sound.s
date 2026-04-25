@@ -6,7 +6,7 @@
 	.global soundReset
 	.global soundMixer
 	.global setMuteSoundGUI
-	.global setMuteSoundGame
+	.global soundSetMuteGame
 	.global ym1StatusR
 	.global ym1DataR
 	.global ym1IndexW
@@ -69,7 +69,7 @@ setMuteSoundGUI:
 	strb r0,muteSoundGUI
 	bx lr
 ;@----------------------------------------------------------------------------
-setMuteSoundGame:			;@ For System E ?
+soundSetMuteGame:			;@ For System E ?
 ;@----------------------------------------------------------------------------
 	strb r0,muteSoundGame
 	bx lr

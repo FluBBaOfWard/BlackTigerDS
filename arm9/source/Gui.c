@@ -16,7 +16,7 @@
 #include "BlackTigerVideo/Version.h"
 #include "../../arm7/source/YM2203/Version.h"
 
-#define EMUVERSION "V0.2.1 2026-01-17"
+#define EMUVERSION "V0.2.1 2026-04-26"
 
 static void scalingSet(void);
 static const char *getScalingText(void);
@@ -66,9 +66,9 @@ const MItem fileItems[] = {
 const MItem optionItems[] = {
 	{"Controller", ui4},
 	{"Display", ui5},
-	{"Settings", ui6},
-	{"Debug", ui7},
-	{"DipSwitches", ui8},
+	{"DipSwitches", ui6},
+	{"Settings", ui7},
+	{"Debug", ui8},
 };
 const MItem ctrlItems[] = {
 	{"B Autofire:", autoBSet, getAutoBText},
@@ -123,9 +123,9 @@ const Menu menu2 = MENU_M("", uiAuto, optionItems);
 const Menu menu3 = MENU_M("", uiAbout, dummyItems);
 const Menu menu4 = MENU_M("Controller Settings", uiAuto, ctrlItems);
 const Menu menu5 = MENU_M("Display Settings", uiAuto, displayItems);
-const Menu menu6 = MENU_M("Settings", uiAuto, setItems);
-const Menu menu7 = MENU_M("Debug", uiAuto, debugItems);
-const Menu menu8 = MENU_M("Dipswitch Settings", uiAuto, dipItems);
+const Menu menu6 = MENU_M("Dipswitch Settings", uiAuto, dipItems);
+const Menu menu7 = MENU_M("Settings", uiAuto, setItems);
+const Menu menu8 = MENU_M("Debug", uiAuto, debugItems);
 const Menu menu9 = MENU_M("Load Game", uiLoadGame, fnList9);
 const Menu menu10 = MENU_M("", uiDummy, dummyItems);
 const Menu menu11 = MENU_M("Quit Emulator?", uiAuto, quitItems);

@@ -3,4 +3,5 @@ BlackTigerDS.xcodeproj/project.xcworkspace/xcuserdata
 *.elf
 arm7/build
 arm9/build
+arm9/include/blktiger
 *.nds

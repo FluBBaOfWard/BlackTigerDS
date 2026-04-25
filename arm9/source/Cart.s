@@ -4,6 +4,8 @@
 #include "ARMZ80/ARMZ80mac.h"
 #include "BlackTigerVideo/BlackTigerVideo.i"
 
+//#define EMBEDDED_ROM
+
 	.global machineInit
 	.global loadCart
 	.global z80Mapper
@@ -29,6 +31,7 @@
 	.section .rodata
 	.align 2
 
+#ifdef EMBEDDED_ROM
 rawRom:
 /*
 // Code
@@ -76,12 +79,14 @@ rawRom:
 	.incbin "blktiger/bd-10.9a"
 	.incbin "blktiger/bd-09.8a"
 */
+#endif
 	.align 2
 ;@----------------------------------------------------------------------------
 machineInit: 	;@ Called from C
 	.type   machineInit STT_FUNC
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{lr}
+
 	bl gfxInit
 //	bl ioInit
 	bl soundInit
@@ -100,16 +105,19 @@ loadCart: 		;@ Called from C:  r0=rom number, r1=emuflags
 	str r0,romNum
 	str r1,emuFlags
 
-//	ldr r7,=rawRom
+#ifdef EMBEDDED_ROM
+	ldr r7,=rawRom
+	str r7,romStart				;@ Set rom base
+	add r0,r7,#0x50000			;@ 0x48000+0x8000
+	str r0,vromBase0			;@ Chr
+	add r0,r0,#0x08000
+	str r0,vromBase1			;@ Tiles
+	add r0,r0,#0x40000
+	str r0,vromBase2			;@ Sprites
+#else
 	ldr r7,=ROM_Space
 								;@ r7=rombase til end of loadcart so DON'T FUCK IT UP
-//	str r7,romStart				;@ Set rom base
-//	add r0,r7,#0x50000			;@ 0x48000+0x8000
-//	str r0,vromBase0			;@ Chr
-//	add r0,r0,#0x08000
-//	str r0,vromBase1			;@ Tiles
-//	add r0,r0,#0x40000
-//	str r0,vromBase2			;@ Sprites
+#endif
 
 	ldr r4,=MEMMAPTBL_
 	ldr r5,=RDMEMTBL_
@@ -164,7 +172,6 @@ tbLoop2:
 
 	ldmfd sp!,{r4-r11,lr}
 	bx lr
-
 ;@----------------------------------------------------------------------------
 initMappingPage:	;@ r0=page, r1=mem, r2=rdMem, r3=wrMem
 ;@----------------------------------------------------------------------------
@@ -235,7 +242,6 @@ z80Flush:		;@ Update cpu_pc & lastbank
 	ldmfd sp!,{r3-r8,lr}
 	bx lr
 
-
 ;@----------------------------------------------------------------------------
 
 romNum:
@@ -265,7 +271,12 @@ promBase:
 	.long 0
 	.pool
 
+#ifdef GBA
+	.section .sbss				;@ This is EWRAM on GBA with devkitARM
+#else
 	.section .bss
+#endif
+	.align 2
 WRMEMTBL_:
 	.space 256*4
 RDMEMTBL_:

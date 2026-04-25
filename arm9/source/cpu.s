@@ -108,7 +108,7 @@ stepFrame:					;@ Return after 1 frame
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{r4-r11,lr}
 ;@----------------------------------------------------------------------------
-ccStepLoop:
+capcomStepLoop:
 ;@----------------------------------------------------------------------------
 	ldr z80ptr,=z80CPU1
 	mov r0,#CYCLE_PSL1
@@ -125,7 +125,7 @@ ccStepLoop:
 	ldr btptr,=blkTgrVideo_0
 	bl doScanline
 	cmp r0,#0
-	bne ccStepLoop
+	bne capcomStepLoop
 ;@----------------------------------------------------------------------------
 
 	ldr r1,frameTotal
@@ -155,7 +155,6 @@ cpuReset:		;@ Called by loadCart/resetGame
 	mov r1,z80ptr
 	ldr r2,=z80Size
 	bl memcpy
-
 
 	adr r4,cpuMapData
 	bl mapZ80Memory
@@ -199,7 +198,7 @@ z80DataLoop:
 	.section .sbss				;@ This is DTCM on NDS with devkitARM
 #endif
 ;@----------------------------------------------------------------------------
-	.space 102*4
+	.space (MEM_TBL_SIZE+38)*4
 z80CPU1:
 	.space z80Size
 ;@----------------------------------------------------------------------------

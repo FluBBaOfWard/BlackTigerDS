@@ -1,6 +1,7 @@
 BlackTigerDS To do
 -------------------
 
+	Code is not rebuilt correctly when changing cpu code!!!
 	Start sound cpu, fix boot check.
 
 Misc:

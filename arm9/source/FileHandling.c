@@ -35,6 +35,7 @@ void applyConfigData(void) {
 	gDipSwitch1  = cfg.dipSwitchBT1;
 	gDipSwitch2  = cfg.dipSwitchBT2;
 	gDipSwitch3  = cfg.dipSwitchBT3;
+	pauseEmulation = (emuSettings & AUTOPAUSE_EMULATION);
 }
 
 void updateConfigData(void) {
